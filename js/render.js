@@ -61,9 +61,19 @@ export function createGameCard(game, state) {
     cover.height = 240;
     cover.loading = "lazy";
     useFallbackImage(cover);
+    // Обложка в обёртке: на неё ложится бейдж «Выбор редакции»
+    const coverBox = document.createElement("span");
+    coverBox.className = "cover-box";
+    coverBox.append(cover);
+    if (game.isEditorsChoice) {
+        const badge = document.createElement("span");
+        badge.className = "editors-badge";
+        badge.textContent = "★ Выбор редакции";
+        coverBox.append(badge);
+    }
     const title = document.createElement("h3");
     title.textContent = game.title;
-    link.append(cover, title);
+    link.append(coverBox, title);
     const meta = document.createElement("p");
     const newMark = isNewRelease(game) ? " · 🆕 новинка" : "";
     meta.textContent = `${game.genre} · ${game.year}${newMark}`;

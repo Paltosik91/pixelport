@@ -27,6 +27,10 @@ export function renderGamePage(game, state) {
     setText("#game-year", String(game.year));
     setText("#game-developer", game.developer);
     setText("#game-rating", formatRatingLine(game));
+    const choiceBadge = document.querySelector("#game-editors-choice");
+    if (choiceBadge !== null) {
+        choiceBadge.hidden = !game.isEditorsChoice;
+    }
     const cover = document.querySelector("#game-cover");
     if (cover !== null) {
         useFallbackImage(cover);

@@ -42,9 +42,10 @@ const genreSelect = document.querySelector<HTMLSelectElement>("#genre");
 const priceSelect = document.querySelector<HTMLSelectElement>("#max-price");
 const sortSelect = document.querySelector<HTMLSelectElement>("#sort");
 const saleCheckbox = document.querySelector<HTMLInputElement>("#only-sale");
+const choiceCheckbox = document.querySelector<HTMLInputElement>("#editors-choice");
 
 // ===== Фильтры =====
-const ALL_GAMES: CatalogFilters = { query: "", genre: "", maxPrice: null, onlySale: false, sort: "rating" };
+const ALL_GAMES: CatalogFilters = { query: "", genre: "", maxPrice: null, onlySale: false, editorsChoice: false, sort: "rating" };
 
 async function fillGenres(): Promise<void> {
   if (genreSelect === null) {
@@ -67,6 +68,7 @@ function readFilters(): CatalogFilters {
     genre: (genreSelect?.value ?? "") as Genre | "",
     maxPrice: maxPrice === "" ? null : Number(maxPrice),
     onlySale: saleCheckbox?.checked ?? false,
+    editorsChoice: choiceCheckbox?.checked ?? false,
     sort: (sortSelect?.value ?? "rating") as SortOrder,
   };
 }

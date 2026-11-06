@@ -11,7 +11,7 @@ public static class GameEndpoints
     {
         var api = app.MapGroup("/api");
 
-        api.MapGet("/games", async (PixelPortDb db, string? q, string? genre, int? maxPrice, bool onlySale = false, string sort = "rating") =>
+        api.MapGet("/games", async (PixelPortDb db, string? q, string? genre, int? maxPrice, bool onlySale = false, bool editorsChoice = false, string sort = "rating") =>
         {
             if (!SortOrders.Contains(sort))
             {
@@ -38,6 +38,10 @@ public static class GameEndpoints
             if (onlySale)
             {
                 found = found.Where(game => game.DiscountPercent > 0);
+            }
+            if (editorsChoice)
+            {
+                found = found.Where(game => game.IsEditorsChoice);
             }
 
             found = sort switch

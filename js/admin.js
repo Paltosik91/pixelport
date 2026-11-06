@@ -1,7 +1,7 @@
-import { deleteGame, fetchGame, fetchGames, fetchGenres, postGame, putDiscount, putGame } from "./api.js";
+import { deleteGame, fetchGame, fetchGames, fetchGenres, postGame, putDiscount, putEditorsChoice, putGame } from "./api.js";
 import { formatPrice } from "./price.js";
 import { setText } from "./dom.js";
-const ALL_GAMES = { query: "", genre: "", maxPrice: null, onlySale: false, sort: "new" };
+const ALL_GAMES = { query: "", genre: "", maxPrice: null, onlySale: false, editorsChoice: false, sort: "new" };
 // Какую игру сейчас правим в форме; null — добавляем новую
 let editingId = null;
 function readGameInput(form) {
@@ -66,8 +66,41 @@ function createRow(game) {
     deleteButton.dataset.action = "delete";
     deleteButton.textContent = "Удалить";
     actionsCell.append(editButton, deleteButton);
-    row.append(titleCell, priceCell, discountCell, actionsCell);
+    const choiceCell = document.createElement("td");
+    const choiceInput = document.createElement("input");
+    choiceInput.type = "checkbox";
+    choiceInput.className = "choice-input";
+    choiceInput.checked = game.isEditorsChoice;
+    choiceInput.setAttribute("aria-label", `Выбор редакции: ${game.title}`);
+    choiceCell.append(choiceInput);
+    row.append(titleCell, priceCell, discountCell, choiceCell, actionsCell);
     return row;
+}
+// Флажок «Выбор редакции»: сохраняем сразу, при ошибке возвращаем как было
+async function onChoiceChange(event) {
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement) || !input.classList.contains("choice-input")) {
+        return;
+    }
+    const row = input.closest("tr");
+    const id = Number(row?.dataset.gameId);
+    const title = row?.querySelector("a")?.textContent ?? "";
+    const wanted = input.checked;
+    input.disabled = true;
+    try {
+        const result = await putEditorsChoice(id, wanted);
+        if (!result.ok) {
+            throw new Error(result.message);
+        }
+        setText("#admin-catalog-message", wanted ? `«${title}» — в выборе редакции.` : `«${title}» убрана из выбора редакции.`);
+    }
+    catch (error) {
+        input.checked = !wanted;
+        setText("#admin-catalog-message", `«${title}»: не сохранилось — ${error instanceof Error ? error.message : "ошибка"}`);
+    }
+    finally {
+        input.disabled = false;
+    }
 }
 async function renderAdminGames() {
     const tbody = document.querySelector("#admin-games");
@@ -179,6 +212,7 @@ export async function setupAdminForm() {
     }
     await renderAdminGames();
     document.querySelector("#admin-games")?.addEventListener("click", onCatalogClick);
+    document.querySelector("#admin-games")?.addEventListener("change", onChoiceChange);
     document.querySelector("#cancel-edit")?.addEventListener("click", () => {
         form.reset();
         showErrors(form, {});

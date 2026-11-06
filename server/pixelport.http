@@ -96,6 +96,36 @@ Content-Type: application/json
   "description": "Развозите письма между планетами, теперь с грузовым отсеком."
 }
 
+### Выбор редакции: только подборка → 200, Iron Harbor, Lantern Valley, Hollow Bell
+GET {{host}}/api/games?editorsChoice=true
+
+### Выбор редакции вместе с жанром → 200, только Iron Harbor
+GET {{host}}/api/games?editorsChoice=true&genre=Стратегии
+
+### Добавить Neon Circuit в подборку → 200, "isEditorsChoice": true
+PUT {{host}}/api/games/3/editors-choice
+Content-Type: application/json
+
+{ "isEditorsChoice": true }
+
+### Убрать обратно → 200, "isEditorsChoice": false
+PUT {{host}}/api/games/3/editors-choice
+Content-Type: application/json
+
+{ "isEditorsChoice": false }
+
+### Без поля → 400
+PUT {{host}}/api/games/3/editors-choice
+Content-Type: application/json
+
+{ }
+
+### Нет такой игры → 404
+PUT {{host}}/api/games/999/editors-choice
+Content-Type: application/json
+
+{ "isEditorsChoice": true }
+
 ### Удалить игру с отзывами → 409
 DELETE {{host}}/api/games/3
 

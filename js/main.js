@@ -35,8 +35,9 @@ const genreSelect = document.querySelector("#genre");
 const priceSelect = document.querySelector("#max-price");
 const sortSelect = document.querySelector("#sort");
 const saleCheckbox = document.querySelector("#only-sale");
+const choiceCheckbox = document.querySelector("#editors-choice");
 // ===== Фильтры =====
-const ALL_GAMES = { query: "", genre: "", maxPrice: null, onlySale: false, sort: "rating" };
+const ALL_GAMES = { query: "", genre: "", maxPrice: null, onlySale: false, editorsChoice: false, sort: "rating" };
 async function fillGenres() {
     if (genreSelect === null) {
         return;
@@ -57,6 +58,7 @@ function readFilters() {
         genre: (genreSelect?.value ?? ""),
         maxPrice: maxPrice === "" ? null : Number(maxPrice),
         onlySale: saleCheckbox?.checked ?? false,
+        editorsChoice: choiceCheckbox?.checked ?? false,
         sort: (sortSelect?.value ?? "rating"),
     };
 }

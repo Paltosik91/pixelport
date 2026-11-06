@@ -15,7 +15,8 @@ public record GameSummary(
     int FinalPrice,
     int? Rating,
     string CoverAlt,
-    string Description);
+    string Description,
+    bool IsEditorsChoice);
 
 // То, что видит клиент на странице игры: всё
 public record GameDetails(
@@ -33,7 +34,8 @@ public record GameDetails(
     string CoverAlt,
     string Description,
     string[] Tags,
-    string[]? Features);
+    string[]? Features,
+    bool IsEditorsChoice);
 
 public record GenreInfo(string Name, int Count);
 
@@ -54,6 +56,9 @@ public record GameInput(
 
 // Новая скидка — одно поле
 public record DiscountInput(int DiscountPercent);
+
+// Отметка «Выбор редакции»: bool? — чтобы отличить «нет поля» от false
+public record EditorsChoiceInput(bool? IsEditorsChoice);
 
 // Что присылает клиент, когда пишет отзыв
 public record NewReview(int PlayerId, bool IsRecommended, string? Text);
@@ -101,7 +106,7 @@ public static class GameMapping
         game.Price, game.DiscountPercent, game.FinalPrice,
         // Рейтинг — процент положительных отзывов. Нет отзывов — нет рейтинга
         game.Reviews.Count == 0 ? null : game.Reviews.Count(review => review.IsRecommended) * 100 / game.Reviews.Count,
-        game.CoverAlt, game.Description);
+        game.CoverAlt, game.Description, game.IsEditorsChoice);
 
     public static readonly Expression<Func<Game, GameDetails>> ToDetails = game => new GameDetails(
         game.Id, game.Slug, game.Title, game.Genre.Name, game.ReleaseYear, game.Developer,
@@ -110,5 +115,6 @@ public static class GameMapping
         game.Reviews.Count,
         game.CoverAlt, game.Description,
         game.Tags.OrderBy(tag => tag.Name).Select(tag => tag.Name).ToArray(),
-        game.Features == null ? null : game.Features.ToArray());
+        game.Features == null ? null : game.Features.ToArray(),
+        game.IsEditorsChoice);
 }

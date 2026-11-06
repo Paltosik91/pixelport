@@ -21,6 +21,7 @@ export interface Game {
   rating: number | null;
   coverAlt: string;
   description: string;
+  isEditorsChoice: boolean;
 }
 
 // Игра на своей странице: всё о ней

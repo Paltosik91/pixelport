@@ -69,6 +69,26 @@ public static class AdminEndpoints
             return Results.Ok(await LoadDetailsAsync(db, id));
         });
 
+        api.MapPut("/{id:int}/editors-choice", async (PixelPortDb db, int id, EditorsChoiceInput input) =>
+        {
+            Game? game = await db.Games.FindAsync(id);
+            if (game is null)
+            {
+                return GameNotFound(id);
+            }
+            if (input.IsEditorsChoice is null)
+            {
+                return Results.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    ["isEditorsChoice"] = ["Укажи true или false"],
+                });
+            }
+
+            game.IsEditorsChoice = input.IsEditorsChoice.Value;
+            await db.SaveChangesAsync();
+            return Results.Ok(await LoadDetailsAsync(db, id));
+        });
+
         api.MapDelete("/{id:int}", async (PixelPortDb db, int id) =>
         {
             Game? game = await db.Games.FindAsync(id);

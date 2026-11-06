@@ -8,7 +8,7 @@ public static class CatalogSeeder
     private record CatalogItem(
         string Slug, string Title, string Genre, int Year, string Developer,
         int Price, int DiscountPercent, string CoverAlt, string Description,
-        string[] Tags, string[]? Features);
+        string[] Tags, string[]? Features, bool EditorsChoice = false);
 
     public static int SeedIfEmpty(PixelPortDb db, string catalogPath)
     {
@@ -43,6 +43,7 @@ public static class CatalogSeeder
                 CoverAlt = item.CoverAlt,
                 Description = item.Description,
                 Features = item.Features?.ToList(),
+                IsEditorsChoice = item.EditorsChoice,
                 Genre = genre,
             };
 
