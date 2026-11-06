@@ -30,6 +30,23 @@ export function createPrice(game: Game): HTMLParagraphElement {
   return price;
 }
 
+// Оценка словами, как в больших магазинах
+export function describeRating(rating: number | null): string {
+  if (rating === null) {
+    return "Пока нет отзывов";
+  }
+  if (rating >= 80) {
+    return `👍 ${rating}% · очень положительные`;
+  }
+  if (rating >= 60) {
+    return `👍 ${rating}% · в основном положительные`;
+  }
+  if (rating >= 40) {
+    return `${rating}% · смешанные`;
+  }
+  return `👎 ${rating}% · в основном отрицательные`;
+}
+
 export function createGameCard(game: Game, state: CardState): HTMLElement {
   const card = document.createElement("article");
   card.className = "card";
@@ -61,8 +78,11 @@ export function createGameCard(game: Game, state: CardState): HTMLElement {
   link.append(cover, title);
 
   const meta = document.createElement("p");
-  const rating = game.rating === null ? "нет отзывов" : `👍 ${game.rating}%`;
-  meta.textContent = `${game.genre} · ${game.year} · ${rating}`;
+  meta.textContent = `${game.genre} · ${game.year}`;
+
+  const rating = document.createElement("p");
+  rating.className = "card-rating";
+  rating.textContent = describeRating(game.rating);
 
   const buyButton = document.createElement("button");
   buyButton.type = "button";
@@ -71,6 +91,6 @@ export function createGameCard(game: Game, state: CardState): HTMLElement {
   buyButton.textContent = state.inCart ? "В корзине ✓" : "В корзину";
   buyButton.disabled = state.inCart;
 
-  card.append(wishButton, link, meta, createPrice(game), buyButton);
+  card.append(wishButton, link, meta, rating, createPrice(game), buyButton);
   return card;
 }
