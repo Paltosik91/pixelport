@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using PixelPort.Api;
+using PixelPort.Api.Data;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -7,11 +9,22 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 builder.Services.AddProblemDetails();
 
+string connectionString = builder.Configuration.GetConnectionString("PixelPort")
+    ?? throw new InvalidOperationException("Нет строки подключения ConnectionStrings:PixelPort");
+builder.Services.AddDbContext<PixelPortDb>(options => options
+    .UseNpgsql(connectionString)
+    .UseSnakeCaseNamingConvention());
+
 var app = builder.Build();
 
-string catalogPath = Path.Combine(app.Environment.WebRootPath, "data", "catalog.json");
-List<Game> games = GameCatalog.Load(catalogPath);
-app.Logger.LogInformation("Каталог загружен: {Count} игр из {Path}", games.Count, catalogPath);
+// Начальные данные: в пустую базу переносим игры из catalog.json
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<PixelPortDb>();
+    string catalogPath = Path.Combine(app.Environment.WebRootPath, "data", "catalog.json");
+    int added = CatalogSeeder.SeedIfEmpty(db, catalogPath);
+    app.Logger.LogInformation("Начальные данные: добавлено игр {Added}, всего в базе {Total}", added, db.Games.Count());
+}
 
 // Сервер раздаёт папку сайта, но не собственные файлы
 app.Use(async (context, next) =>
@@ -27,6 +40,6 @@ app.Use(async (context, next) =>
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.MapGameEndpoints(games);
+app.MapGameEndpoints();
 
 app.Run();

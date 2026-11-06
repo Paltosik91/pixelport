@@ -1,3 +1,6 @@
+using System.Linq.Expressions;
+using PixelPort.Api.Data;
+
 namespace PixelPort.Api;
 
 // То, что видит клиент в списке: всё для карточки, ничего лишнего
@@ -33,15 +36,19 @@ public record GameDetails(
 
 public record GenreInfo(string Name, int Count);
 
+// Как превратить игру из базы в ответ клиенту.
+// Это не обычная функция, а выражение: EF Core переведёт его в SQL
 public static class GameMapping
 {
-    public static GameSummary ToSummary(this Game game) => new(
-        game.Id, game.Slug, game.Title, game.Genre, game.Year,
+    public static readonly Expression<Func<Game, GameSummary>> ToSummary = game => new GameSummary(
+        game.Id, game.Slug, game.Title, game.Genre.Name, game.ReleaseYear,
         game.Price, game.DiscountPercent, game.FinalPrice, game.Rating,
         game.CoverAlt, game.Description);
 
-    public static GameDetails ToDetails(this Game game) => new(
-        game.Id, game.Slug, game.Title, game.Genre, game.Year, game.Developer,
+    public static readonly Expression<Func<Game, GameDetails>> ToDetails = game => new GameDetails(
+        game.Id, game.Slug, game.Title, game.Genre.Name, game.ReleaseYear, game.Developer,
         game.Price, game.DiscountPercent, game.FinalPrice, game.Rating,
-        game.CoverAlt, game.Description, game.Tags, game.Features);
+        game.CoverAlt, game.Description,
+        game.Tags.OrderBy(tag => tag.Name).Select(tag => tag.Name).ToArray(),
+        game.Features == null ? null : game.Features.ToArray());
 }

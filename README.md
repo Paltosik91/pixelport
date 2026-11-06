@@ -24,13 +24,20 @@ CSS-переменных, сетка каталога на Grid, адаптив�
 затем запустить `index.html` через Live Server. Двойной щелчок по файлу
 не подойдёт: модули и `fetch` работают только через веб-сервер.
 
-**Сервер на ASP.NET Core** (нужен .NET SDK 10):
+**Сервер на ASP.NET Core** (нужны .NET SDK 10 и PostgreSQL 18).
+Каталог хранится в PostgreSQL, таблицы создаются миграциями EF Core.
+Строка подключения — в `server/appsettings.json` (без пароля),
+пароль задаётся в терминале:
 
 ```bash
+export PGPASSWORD='пароль'
+dotnet tool restore
 cd server
+dotnet ef database update
 dotnet run
 ```
 
+При первом запуске пустая база заполняется играми из `data/catalog.json`.
 Сайт откроется на http://localhost:5080 и будет брать данные из API
 (`/api/games`, `/api/games/{id}`, `/api/genres`). На Live Server и GitHub Pages
 витрина работает без сервера, на `data/catalog.json`. Примеры запросов —
