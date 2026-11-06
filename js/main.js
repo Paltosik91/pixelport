@@ -2,6 +2,7 @@ import { USE_API, fetchGame, fetchGames, fetchGenres, postOrder } from "./api.js
 import { getCurrentPlayer, setupPlayerSwitch } from "./player.js";
 import { setupLibrary, showLibraryOffline } from "./library.js";
 import { setupReviews } from "./reviews.js";
+import { setupSimilar } from "./similar.js";
 import { setupAdminForm, showAdminOffline } from "./admin.js";
 import { createLoadError, createSkeletonCards } from "./loading.js";
 import { createGameCard } from "./render.js";
@@ -116,6 +117,7 @@ async function renderGameSection() {
     else {
         renderGamePage(game, { inCart: cart.has(game.id), wished: wishlist.has(game.id) });
         if (USE_API) {
+            await setupSimilar(game.id, (id) => ({ inCart: cart.has(id), wished: wishlist.has(id) }));
             await setupReviews(game.id);
         }
         else {

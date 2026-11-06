@@ -396,6 +396,15 @@ form {
   font-size: 14px;
 }
 
+.similar {
+  margin-top: 48px;
+}
+
+.common-tags {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
 .buy-box {
   display: flex;
   flex-wrap: wrap;

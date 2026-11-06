@@ -27,6 +27,15 @@ GET {{host}}/api/games/neon
 ### Жанры с количеством игр
 GET {{host}}/api/genres
 
+### Похожие на Hollow Bell → 200, три игры, Polar Signal первой
+GET {{host}}/api/games/9/similar
+
+### Похожие на Iron Harbor → 200, одна игра
+GET {{host}}/api/games/4/similar
+
+### Похожие на несуществующую игру → 404
+GET {{host}}/api/games/999/similar
+
 ### Новая игра → 201
 POST {{host}}/api/games
 Content-Type: application/json

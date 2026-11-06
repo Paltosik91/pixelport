@@ -58,6 +58,9 @@ public record DiscountInput(int DiscountPercent);
 // Что присылает клиент, когда пишет отзыв
 public record NewReview(int PlayerId, bool IsRecommended, string? Text);
 
+// Похожая игра: карточка и теги, общие с исходной игрой
+public record SimilarGame(GameSummary Game, List<string> CommonTags);
+
 // Заказ: кто покупает и что. Цены клиент не присылает — их знает только сервер
 public record NewOrder(int PlayerId, int[]? GameIds, string? PromoCode);
 

@@ -1,5 +1,5 @@
 import type {
-  Game, GameDetails, Genre, GameInput, LibraryItem, NewOrder, NewReview, Order, Player, Review,
+  Game, GameDetails, Genre, GameInput, LibraryItem, NewOrder, NewReview, Order, Player, Review, SimilarGame,
 } from "./models.js";
 import { getGenres, selectGames, type CatalogFilters } from "./filters.js";
 import { calculateFinalPrice } from "./price.js";
@@ -89,6 +89,10 @@ export async function fetchPlayers(): Promise<Player[]> {
 
 export async function fetchReviews(gameId: number): Promise<Review[]> {
   return getJson<Review[]>(`${API_BASE}/games/${gameId}/reviews`);
+}
+
+export async function fetchSimilar(gameId: number): Promise<SimilarGame[]> {
+  return getJson<SimilarGame[]>(`${API_BASE}/games/${gameId}/similar`);
 }
 
 export async function fetchLibrary(playerId: number): Promise<LibraryItem[]> {

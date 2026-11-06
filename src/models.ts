@@ -94,3 +94,9 @@ export interface LibraryItem {
   purchasedAt: string;
   orderId: number;
 }
+
+// Похожая игра: карточка и общие с исходной игрой теги
+export interface SimilarGame {
+  game: Game;
+  commonTags: string[];
+}
