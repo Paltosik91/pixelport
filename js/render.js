@@ -34,6 +34,11 @@ export function describeRating(rating) {
     }
     return `👎 ${rating}% · в основном отрицательные`;
 }
+// Новинки — игры этого года выпуска и новее
+const NEW_RELEASE_YEAR = 2025;
+export function isNewRelease(game) {
+    return game.year >= NEW_RELEASE_YEAR;
+}
 export function createGameCard(game, state) {
     const card = document.createElement("article");
     card.className = "card";
@@ -60,7 +65,8 @@ export function createGameCard(game, state) {
     title.textContent = game.title;
     link.append(cover, title);
     const meta = document.createElement("p");
-    meta.textContent = `${game.genre} · ${game.year}`;
+    const newMark = isNewRelease(game) ? " · 🆕 новинка" : "";
+    meta.textContent = `${game.genre} · ${game.year}${newMark}`;
     const rating = document.createElement("p");
     rating.className = "card-rating";
     rating.textContent = describeRating(game.rating);
