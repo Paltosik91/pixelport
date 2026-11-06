@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PixelPort — магазин инди-игр</title>
   <link rel="icon" href="img/logo-mark.svg">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header>
@@ -22,53 +23,53 @@
   </header>
 
   <main>
-    <section>
+    <section class="hero">
       <h1>Зимняя распродажа уже близко</h1>
       <p>Скидки до 60% на инди-хиты. Добавь игры в желаемое, чтобы не пропустить старт.</p>
       <img src="img/hero.png"
            alt="Путник в красном плаще смотрит на долину с замком и огромной планетой в небе"
            width="600">
-      <p><a href="#catalog">Смотреть игры</a></p>
+      <p><a href="#catalog" class="button">Смотреть игры</a></p>
     </section>
 
     <section id="catalog">
       <h2>Хиты недели</h2>
 
-      <article>
+      <article class="card">
         <a href="game.html">
           <img src="img/neon-circuit.png" alt="Неоновый спорткар на ночной трассе" width="180">
           <h3>Neon Circuit</h3>
         </a>
         <p>Гонки · 2025</p>
-        <p><del>1499 ₽</del> <strong>599 ₽</strong> <mark>−60%</mark></p>
+        <p class="price"><del>1499 ₽</del> <strong>599 ₽</strong> <mark>−60%</mark></p>
       </article>
 
-      <article>
+      <article class="card">
         <a href="game.html">
           <img src="img/mossbound.png" alt="Каменные ворота среди покрытых мхом руин" width="180">
           <h3>Mossbound</h3>
         </a>
         <p>Приключения · 2023</p>
-        <p><del>899 ₽</del> <strong>629 ₽</strong> <mark>−30%</mark></p>
+        <p class="price"><del>899 ₽</del> <strong>629 ₽</strong> <mark>−30%</mark></p>
       </article>
 
 
-      <article>
+      <article class="card">
         <a href="game.html">
           <img src="img/orbital-echo.png" alt="Исследователь в скафандре на фоне огромной планеты" width="180">
           <h3>Orbital Echo</h3>
         </a>
         <p>Приключения · 2024</p>
-        <p><strong>1299 ₽</strong></p>
+        <p class="price"><strong>1299 ₽</strong></p>
       </article>
 
-      <article>
+      <article class="card">
         <a href="game.html">
           <img src="img/crimson-keep.png" alt="Крепость на скале и дорога к её воротам" width="180">
           <h3>Crimson Keep</h3>
         </a>
         <p>Стратегии · 2024</p>
-        <p><del>1399 ₽</del> <strong>839 ₽</strong> <mark>−40%</mark></p>
+        <p class="price"><del>1399 ₽</del> <strong>839 ₽</strong> <mark>−40%</mark></p>
       </article>
     </section>
   </main>
