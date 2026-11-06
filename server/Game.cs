@@ -13,4 +13,7 @@ public record Game(
     string CoverAlt,
     string Description,
     string[] Tags,
-    string[]? Features);
+    string[]? Features)
+{
+    public int FinalPrice => Price * (100 - DiscountPercent) / 100;
+}

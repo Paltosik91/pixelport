@@ -1,18 +1,36 @@
 @host = http://localhost:5080
 
-### Весь каталог
+### Весь каталог (по рейтингу)
 GET {{host}}/api/games
 
-### Главная страница сайта
-GET {{host}}/
+### Поиск и фильтры: гонки со скидкой, дешевле 1000 ₽, сначала дешёвые
+GET {{host}}/api/games?genre=Гонки&onlySale=true&maxPrice=1000&sort=price-asc
 
-### Такого адреса нет
-GET {{host}}/api/nope
+### Поиск по названию
+GET {{host}}/api/games?q=neon
+
+### Неизвестная сортировка → 400
+GET {{host}}/api/games?sort=cheap
+
+### Цена не числом → 400
+GET {{host}}/api/games?maxPrice=дёшево
+
+### Одна игра
+GET {{host}}/api/games/3
+
+### Такой игры нет → 404
+GET {{host}}/api/games/999
+
+### id не число → 404 (маршрут не подошёл)
+GET {{host}}/api/games/neon
+
+### Жанры с количеством игр
+GET {{host}}/api/genres
 
 ### Файлы сервера наружу не отдаются
 GET {{host}}/server/appsettings.json
 
-### Попробуем изменить каталог
+### Попробуем изменить каталог → 405
 POST {{host}}/api/games
 Content-Type: application/json
 

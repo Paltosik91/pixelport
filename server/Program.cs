@@ -5,6 +5,8 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     Args = args,
     WebRootPath = "..",
 });
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 string catalogPath = Path.Combine(app.Environment.WebRootPath, "data", "catalog.json");
@@ -25,6 +27,6 @@ app.Use(async (context, next) =>
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-app.MapGet("/api/games", () => games);
+app.MapGameEndpoints(games);
 
 app.Run();
