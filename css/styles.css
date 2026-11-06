@@ -93,6 +93,10 @@ nav a {
   text-decoration: none;
 }
 
+nav a:hover {
+  background-color: var(--color-surface-raised);
+}
+
 nav a[aria-current="page"] {
   background-color: var(--color-surface-raised);
   color: var(--color-accent);
@@ -136,12 +140,33 @@ footer {
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 12px;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-accent);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+}
+
+.card[data-discount]::before {
+  content: attr(data-discount);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1;
+  padding: 4px 10px;
+  color: var(--color-on-sale);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .card a {
@@ -187,10 +212,30 @@ footer {
 
 mark {
   padding: 2px 8px;
-  background-color: var(--color-sale);
   color: var(--color-on-sale);
   border-radius: var(--radius-sm);
   font-weight: 700;
+}
+
+.card .price mark {
+  display: none; /* в карточке скидку показывает бейдж на обложке */
+}
+
+/* Бейдж скидки с бегущим бликом */
+mark,
+.card[data-discount]::before {
+  background: linear-gradient(110deg, var(--color-sale) 40%, #eaffcf 50%, var(--color-sale) 60%);
+  background-size: 300% 100%;
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
 }
 
 /* ===== 6. Кнопки ===== */
@@ -206,6 +251,17 @@ button,
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  transition: filter 0.2s ease, transform 0.1s ease;
+}
+
+button:hover,
+.button:hover {
+  filter: brightness(1.15);
+}
+
+button:active,
+.button:active {
+  transform: translateY(2px);
 }
 
 /* ===== 7. Таблицы ===== */
@@ -279,4 +335,19 @@ form {
 .game-cover {
   width: 100%;
   border-radius: var(--radius-md);
+}
+
+/* ===== 10. Фокус и движение ===== */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
