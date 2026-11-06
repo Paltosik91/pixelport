@@ -29,11 +29,23 @@
       <div class="hero-text">
         <h1>Зимняя распродажа уже близко</h1>
         <p>Скидки до 60% на инди-хиты. Добавь игры в желаемое, чтобы не пропустить старт.</p>
+        <p class="sale-label" id="sale-label">До старта распродажи</p>
+        <div class="timer" id="sale-timer" role="timer">
+          <div class="timer-cell"><span class="timer-value" id="timer-days">00</span> дн</div>
+          <div class="timer-cell"><span class="timer-value" id="timer-hours">00</span> ч</div>
+          <div class="timer-cell"><span class="timer-value" id="timer-minutes">00</span> мин</div>
+          <div class="timer-cell"><span class="timer-value" id="timer-seconds">00</span> сек</div>
+        </div>
         <p><a href="#catalog" class="button">Смотреть игры</a></p>
       </div>
       <img src="img/hero.png"
            alt="Путник в красном плаще смотрит на долину с замком и огромной планетой в небе"
            width="600" height="338">
+    </section>
+
+    <section class="deal-of-day" id="deal-of-day" hidden>
+      <h2>Игра дня</h2>
+      <div class="deal-of-day-content"></div>
     </section>
 
     <section id="catalog">

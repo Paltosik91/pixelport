@@ -6,6 +6,8 @@ import { loadIds, saveIds } from "./storage.js";
 import { calculateTotals, createCartRow, getCartGames, getPromoPercent } from "./cart.js";
 import { formatPrice } from "./price.js";
 import { setText } from "./dom.js";
+import { pickGameOfDay } from "./sale.js";
+import { startSaleTimer } from "./sale-banner.js";
 // ===== Состояние: корзина и желаемое =====
 const cart = loadIds("cart");
 const wishlist = loadIds("wishlist");
@@ -135,6 +137,42 @@ promoForm?.addEventListener("submit", (event) => {
 checkoutButton?.addEventListener("click", () => {
     setText("#checkout-message", "Оплата появится, когда у магазина будет свой сервер. Скоро!");
 });
+// ===== Распродажа и «Игра дня» =====
+startSaleTimer();
+const dealOfDay = document.querySelector("#deal-of-day");
+function renderDealOfDay() {
+    if (dealOfDay === null) {
+        return;
+    }
+    const game = pickGameOfDay(games, new Date());
+    const card = createGameCard(game, { inCart: cart.has(game.id), wished: wishlist.has(game.id) });
+    const about = document.createElement("div");
+    about.className = "deal-of-day-about";
+    const title = document.createElement("h3");
+    title.textContent = game.title;
+    const description = document.createElement("p");
+    description.textContent = game.description;
+    const link = document.createElement("a");
+    link.className = "button";
+    link.href = `game.html?id=${game.id}`;
+    link.textContent = "Подробнее об игре";
+    about.append(title, description, link);
+    dealOfDay.querySelector(".deal-of-day-content")?.replaceChildren(card, about);
+    dealOfDay.hidden = false;
+}
+// ===== Библиотека: желаемое =====
+const wishlistGrid = document.querySelector("#wishlist-grid");
+const wishlistEmpty = document.querySelector("#wishlist-empty");
+function renderWishlist() {
+    if (wishlistGrid === null) {
+        return;
+    }
+    const wishedGames = games.filter((game) => wishlist.has(game.id));
+    wishlistGrid.replaceChildren(...wishedGames.map((game) => createGameCard(game, { inCart: cart.has(game.id), wished: true })));
+    if (wishlistEmpty !== null) {
+        wishlistEmpty.hidden = wishedGames.length > 0;
+    }
+}
 // ===== Кнопки: один обработчик на всю страницу =====
 document.addEventListener("click", (event) => {
     if (!(event.target instanceof Element)) {
@@ -159,6 +197,7 @@ document.addEventListener("click", (event) => {
             wishlist.add(id);
         }
         saveIds("wishlist", wishlist);
+        renderWishlist();
         const isWished = wishlist.has(id);
         wishButton.setAttribute("aria-pressed", String(isWished));
         wishButton.textContent = isWished ? "♥" : "♡";
@@ -174,6 +213,8 @@ document.addEventListener("click", (event) => {
 });
 fillGenres();
 renderCatalog();
+renderDealOfDay();
 renderCart();
+renderWishlist();
 updateCartCount();
 //# sourceMappingURL=main.js.map
