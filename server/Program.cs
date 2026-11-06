@@ -47,5 +47,6 @@ app.UseStaticFiles();
 app.MapGameEndpoints();
 app.MapReviewEndpoints();
 app.MapAdminEndpoints();
+app.MapOrderEndpoints();
 
 app.Run();

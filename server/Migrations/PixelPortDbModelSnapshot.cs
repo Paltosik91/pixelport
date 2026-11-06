@@ -125,6 +125,69 @@ namespace PixelPort.Api.Migrations
                     b.ToTable("genres", (string)null);
                 });
 
+            modelBuilder.Entity("PixelPort.Api.Data.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<int>("PlayerId")
+                        .HasColumnType("integer")
+                        .HasColumnName("player_id");
+
+                    b.Property<string>("PromoCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("promo_code");
+
+                    b.Property<int>("Total")
+                        .HasColumnType("integer")
+                        .HasColumnName("total");
+
+                    b.HasKey("Id")
+                        .HasName("pk_orders");
+
+                    b.HasIndex("PlayerId")
+                        .HasDatabaseName("ix_orders_player_id");
+
+                    b.ToTable("orders", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_orders_total", "total >= 0");
+                        });
+                });
+
+            modelBuilder.Entity("PixelPort.Api.Data.OrderLine", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer")
+                        .HasColumnName("order_id");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("integer")
+                        .HasColumnName("game_id");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("integer")
+                        .HasColumnName("price");
+
+                    b.HasKey("OrderId", "GameId")
+                        .HasName("pk_order_lines");
+
+                    b.HasIndex("GameId")
+                        .HasDatabaseName("ix_order_lines_game_id");
+
+                    b.ToTable("order_lines", (string)null);
+                });
+
             modelBuilder.Entity("PixelPort.Api.Data.Player", b =>
                 {
                     b.Property<int>("Id")
@@ -255,6 +318,39 @@ namespace PixelPort.Api.Migrations
                     b.Navigation("Genre");
                 });
 
+            modelBuilder.Entity("PixelPort.Api.Data.Order", b =>
+                {
+                    b.HasOne("PixelPort.Api.Data.Player", "Player")
+                        .WithMany()
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_orders_players_player_id");
+
+                    b.Navigation("Player");
+                });
+
+            modelBuilder.Entity("PixelPort.Api.Data.OrderLine", b =>
+                {
+                    b.HasOne("PixelPort.Api.Data.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_order_lines_games_game_id");
+
+                    b.HasOne("PixelPort.Api.Data.Order", "Order")
+                        .WithMany("Lines")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_order_lines_orders_order_id");
+
+                    b.Navigation("Game");
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("PixelPort.Api.Data.Review", b =>
                 {
                     b.HasOne("PixelPort.Api.Data.Game", "Game")
@@ -301,6 +397,11 @@ namespace PixelPort.Api.Migrations
             modelBuilder.Entity("PixelPort.Api.Data.Genre", b =>
                 {
                     b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("PixelPort.Api.Data.Order", b =>
+                {
+                    b.Navigation("Lines");
                 });
 
             modelBuilder.Entity("PixelPort.Api.Data.Player", b =>

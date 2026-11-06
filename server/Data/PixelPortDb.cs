@@ -9,6 +9,8 @@ public class PixelPortDb(DbContextOptions<PixelPortDb> options) : DbContext(opti
     public DbSet<Tag> Tags => Set<Tag>();
     public DbSet<Player> Players => Set<Player>();
     public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderLine> OrderLines => Set<OrderLine>();
 
     protected override void OnModelCreating(ModelBuilder model)
     {
@@ -51,6 +53,24 @@ public class PixelPortDb(DbContextOptions<PixelPortDb> options) : DbContext(opti
             // Игру с отзывами удалить нельзя: отзывы — история, а не мусор
             review.HasOne(r => r.Game)
                 .WithMany(game => game.Reviews)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        model.Entity<Order>(order =>
+        {
+            order.Property(o => o.CreatedAt).HasDefaultValueSql("now()");
+            order.Property(o => o.PromoCode).HasMaxLength(20);
+            order.ToTable(table => table.HasCheckConstraint("ck_orders_total", "total >= 0"));
+        });
+
+        model.Entity<OrderLine>(line =>
+        {
+            // Одна игра — одна строка заказа: составной первичный ключ
+            line.HasKey(l => new { l.OrderId, l.GameId });
+
+            // Купленную игру удалить нельзя: она в чьей-то библиотеке
+            line.HasOne(l => l.Game)
+                .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
         });
     }

@@ -28,17 +28,15 @@
     <h1>Моя библиотека</h1>
 
     <section>
-      <h2>Купленные игры</h2>
-      <ul>
-        <li>
-          <img src="img/orbital-echo.png" alt="" width="80" height="107">
-          <a href="game.html?id=1">Orbital Echo</a> — куплено 12.10.2026
-        </li>
-        <li>
-          <img src="img/lantern-valley.png" alt="" width="80" height="107">
-          <a href="game.html?id=6">Lantern Valley</a> — куплено 03.11.2026
-        </li>
-      </ul>
+      <h2 id="library-title">Купленные игры</h2>
+      <ul class="library-list" id="library-list"></ul>
+      <div class="empty-state" id="library-empty" hidden>
+        <p>Здесь пока пусто. Положи игру в корзину и оформи заказ — она появится в библиотеке.</p>
+        <a class="button" href="index.html#catalog">В каталог</a>
+      </div>
+      <p class="library-offline" id="library-offline" hidden>
+        Покупки хранятся на сервере магазина: библиотеку видно, когда магазин работает со своим сервером.
+      </p>
     </section>
 
     <section>

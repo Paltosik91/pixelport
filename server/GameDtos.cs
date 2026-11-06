@@ -58,6 +58,23 @@ public record DiscountInput(int DiscountPercent);
 // Что присылает клиент, когда пишет отзыв
 public record NewReview(int PlayerId, bool IsRecommended, string? Text);
 
+// Заказ: кто покупает и что. Цены клиент не присылает — их знает только сервер
+public record NewOrder(int PlayerId, int[]? GameIds, string? PromoCode);
+
+public record OrderLineInfo(int GameId, string Title, int Price);
+
+public record OrderInfo(
+    int Id,
+    DateTime CreatedAt,
+    string Player,
+    List<OrderLineInfo> Games,
+    int Subtotal,
+    int Discount,
+    int Total);
+
+// Игра в библиотеке игрока
+public record LibraryItem(int GameId, string Slug, string Title, int Price, DateTime PurchasedAt, int OrderId);
+
 // Как превратить игру из базы в ответ клиенту.
 // Это не обычная функция, а выражение: EF Core переведёт его в SQL
 public static class GameMapping

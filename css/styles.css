@@ -596,6 +596,13 @@ button:disabled {
   padding: 6px 14px;
 }
 
+.library-list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+
 /* ===== 13. Распродажа ===== */
 .sale-label {
   display: inline-block;

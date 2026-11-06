@@ -62,3 +62,35 @@ export interface GameInput {
   discountPercent: number;
   description: string;
 }
+
+// Заказ: кто и что покупает. Цен здесь нет — их знает сервер
+export interface NewOrder {
+  playerId: number;
+  gameIds: number[];
+  promoCode: string;
+}
+
+export interface OrderLine {
+  gameId: number;
+  title: string;
+  price: number;
+}
+
+export interface Order {
+  id: number;
+  createdAt: string;
+  player: string;
+  games: OrderLine[];
+  subtotal: number;
+  discount: number;
+  total: number;
+}
+
+export interface LibraryItem {
+  gameId: number;
+  slug: string;
+  title: string;
+  price: number;
+  purchasedAt: string;
+  orderId: number;
+}

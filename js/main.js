@@ -1,5 +1,6 @@
-import { USE_API, fetchGame, fetchGames, fetchGenres } from "./api.js";
-import { setupPlayerSwitch } from "./player.js";
+import { USE_API, fetchGame, fetchGames, fetchGenres, postOrder } from "./api.js";
+import { getCurrentPlayer, setupPlayerSwitch } from "./player.js";
+import { setupLibrary, showLibraryOffline } from "./library.js";
 import { setupReviews } from "./reviews.js";
 import { setupAdminForm, showAdminOffline } from "./admin.js";
 import { createLoadError, createSkeletonCards } from "./loading.js";
@@ -133,7 +134,9 @@ const discountRow = document.querySelector("#cart-discount-row");
 const promoForm = document.querySelector("#promo-form");
 const promoInput = document.querySelector("#promo");
 const checkoutButton = document.querySelector("#checkout");
+const orderDone = document.querySelector("#order-done");
 let promoPercent = 0;
+let promoCode = "";
 function renderCart() {
     if (cartItems === null) {
         return;
@@ -159,17 +162,66 @@ promoForm?.addEventListener("submit", (event) => {
     const percent = getPromoPercent(promoInput?.value ?? "");
     if (percent === undefined) {
         promoPercent = 0;
+        promoCode = "";
         setText("#promo-message", "Такого промокода нет");
     }
     else {
         promoPercent = percent;
+        promoCode = promoInput?.value.trim() ?? "";
         setText("#promo-message", `Промокод применён: скидка ${percent}%`);
     }
     renderCart();
 });
-checkoutButton?.addEventListener("click", () => {
-    setText("#checkout-message", "Оплата появится, когда у магазина будет свой сервер. Скоро!");
-});
+function showOrderDone(order) {
+    setText("#order-done-title", `Заказ №${order.id} оформлен`);
+    setText("#order-done-text", `${order.player}, игр в заказе: ${order.games.length}, оплачено ${formatPrice(order.total)}. Они уже в твоей библиотеке.`);
+    if (cartEmpty !== null) {
+        cartEmpty.hidden = true;
+    }
+    if (orderDone !== null) {
+        orderDone.hidden = false;
+    }
+}
+async function checkout() {
+    const player = getCurrentPlayer();
+    if (!USE_API || player === undefined) {
+        setText("#checkout-message", "Заказы принимает сервер магазина: открой корзину на localhost:5080.");
+        return;
+    }
+    // Отправляем только что купить. Сколько это стоит, сервер посчитает сам
+    const gameIds = getCartGames(games, cart).map((game) => game.id);
+    setText("#checkout-message", "Оформляем заказ…");
+    if (checkoutButton !== null) {
+        checkoutButton.disabled = true;
+    }
+    let result;
+    try {
+        result = await postOrder({ playerId: player.id, gameIds, promoCode });
+    }
+    catch (error) {
+        setText("#checkout-message", error instanceof Error ? error.message : "Не удалось оформить заказ");
+        return;
+    }
+    finally {
+        if (checkoutButton !== null) {
+            checkoutButton.disabled = false;
+        }
+    }
+    if (!result.ok) {
+        // 400 — ошибки по полям, 409 — объяснение в detail
+        setText("#checkout-message", Object.values(result.errors).flat().join(" ") || result.message);
+        return;
+    }
+    cart.clear();
+    saveIds("cart", cart);
+    updateCartCount();
+    promoPercent = 0;
+    promoCode = "";
+    setText("#checkout-message", "");
+    renderCart();
+    showOrderDone(result.data);
+}
+checkoutButton?.addEventListener("click", checkout);
 // ===== Распродажа и «Игра дня» =====
 startSaleTimer();
 const dealOfDay = document.querySelector("#deal-of-day");
@@ -263,9 +315,11 @@ async function start() {
         if (USE_API) {
             await setupPlayerSwitch();
             await setupAdminForm();
+            await setupLibrary();
         }
         else {
             showAdminOffline();
+            showLibraryOffline();
         }
         games = await fetchGames(ALL_GAMES);
         await fillGenres();

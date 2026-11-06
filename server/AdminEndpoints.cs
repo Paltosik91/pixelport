@@ -86,6 +86,15 @@ public static class AdminEndpoints
                     detail: $"У игры «{game.Title}» есть отзывы игроков ({reviews}). Удалить можно только игру без отзывов.");
             }
 
+            int purchases = await db.OrderLines.CountAsync(line => line.GameId == id);
+            if (purchases > 0)
+            {
+                return Results.Problem(
+                    statusCode: StatusCodes.Status409Conflict,
+                    title: "Игру нельзя удалить",
+                    detail: $"Игру «{game.Title}» уже купили ({purchases}). Купленная игра остаётся в библиотеках игроков.");
+            }
+
             db.Games.Remove(game);
             await db.SaveChangesAsync();
             return Results.NoContent();

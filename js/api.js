@@ -69,12 +69,15 @@ export async function fetchGenres() {
     }
     return getGenres(await loadStaticCatalog());
 }
-// ===== Игроки и отзывы: только с сервером =====
+// ===== Игроки, отзывы, заказы: только с сервером =====
 export async function fetchPlayers() {
     return getJson(`${API_BASE}/players`);
 }
 export async function fetchReviews(gameId) {
     return getJson(`${API_BASE}/games/${gameId}/reviews`);
+}
+export async function fetchLibrary(playerId) {
+    return getJson(`${API_BASE}/players/${playerId}/library`);
 }
 async function sendJson(method, url, body) {
     const response = await fetch(url, {
@@ -108,5 +111,8 @@ export function putDiscount(id, discountPercent) {
 }
 export function deleteGame(id) {
     return sendJson("DELETE", `${API_BASE}/games/${id}`);
+}
+export function postOrder(input) {
+    return sendJson("POST", `${API_BASE}/orders`, input);
 }
 //# sourceMappingURL=api.js.map

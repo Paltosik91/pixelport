@@ -1,4 +1,6 @@
-import type { Game, GameDetails, Genre, GameInput, NewReview, Player, Review } from "./models.js";
+import type {
+  Game, GameDetails, Genre, GameInput, LibraryItem, NewOrder, NewReview, Order, Player, Review,
+} from "./models.js";
 import { getGenres, selectGames, type CatalogFilters } from "./filters.js";
 import { calculateFinalPrice } from "./price.js";
 
@@ -80,13 +82,17 @@ export async function fetchGenres(): Promise<Genre[]> {
   return getGenres(await loadStaticCatalog());
 }
 
-// ===== Игроки и отзывы: только с сервером =====
+// ===== Игроки, отзывы, заказы: только с сервером =====
 export async function fetchPlayers(): Promise<Player[]> {
   return getJson<Player[]>(`${API_BASE}/players`);
 }
 
 export async function fetchReviews(gameId: number): Promise<Review[]> {
   return getJson<Review[]>(`${API_BASE}/games/${gameId}/reviews`);
+}
+
+export async function fetchLibrary(playerId: number): Promise<LibraryItem[]> {
+  return getJson<LibraryItem[]>(`${API_BASE}/players/${playerId}/library`);
 }
 
 interface ProblemDetails {
@@ -138,4 +144,8 @@ export function putDiscount(id: number, discountPercent: number): Promise<ApiRes
 
 export function deleteGame(id: number): Promise<ApiResult<void>> {
   return sendJson<void>("DELETE", `${API_BASE}/games/${id}`);
+}
+
+export function postOrder(input: NewOrder): Promise<ApiResult<Order>> {
+  return sendJson<Order>("POST", `${API_BASE}/orders`, input);
 }

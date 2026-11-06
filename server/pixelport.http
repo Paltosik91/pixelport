@@ -120,10 +120,40 @@ Content-Type: application/json
 
 { "playerId": 1, "isRecommended": true, "text": "Такой игры нет, но отзыв хочется" }
 
+### Заказ: Nova покупает Orbital Echo и Lantern Valley с промокодом → 201
+POST {{host}}/api/orders
+Content-Type: application/json
+
+{ "playerId": 1, "gameIds": [1, 6], "promoCode": "pixel10" }
+
+### Ещё раз Lantern Valley → 409
+POST {{host}}/api/orders
+Content-Type: application/json
+
+{ "playerId": 1, "gameIds": [6, 3] }
+
+### Пустая корзина и чужой промокод → 400 с двумя ошибками
+POST {{host}}/api/orders
+Content-Type: application/json
+
+{ "playerId": 1, "gameIds": [], "promoCode": "FREE" }
+
+### Цену прислать нельзя: лишнее поле сервер не читает → 201, а total посчитан по базе
+POST {{host}}/api/orders
+Content-Type: application/json
+
+{ "playerId": 2, "gameIds": [3], "total": 1 }
+
+### Библиотека Nova → 200, две игры
+GET {{host}}/api/players/1/library
+
+### Библиотека несуществующего игрока → 404
+GET {{host}}/api/players/99/library
+
 ### Файлы сервера наружу не отдаются
 GET {{host}}/server/appsettings.json
 
-### Попробуем изменить каталог → 405
+### Игра без обязательных полей → 400
 POST {{host}}/api/games
 Content-Type: application/json
 
