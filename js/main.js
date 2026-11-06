@@ -1,3 +1,16 @@
+import { games } from "./data.js";
+import { createGameCard } from "./render.js";
+// ===== Витрина из данных =====
+const catalogGrid = document.querySelector("#catalog-grid");
+const catalogTitle = document.querySelector("#catalog-title");
+if (catalogGrid !== null) {
+    for (const game of games) {
+        catalogGrid.append(createGameCard(game));
+    }
+}
+if (catalogTitle !== null) {
+    catalogTitle.textContent = `Все игры (${games.length})`;
+}
 // ===== Счётчик корзины в шапке =====
 const cartCount = document.querySelector("#cart-count");
 let itemsInCart = 0;
@@ -31,5 +44,4 @@ for (const button of wishButtons) {
     });
 }
 updateCartCount();
-export {};
 //# sourceMappingURL=main.js.map

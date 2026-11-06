@@ -1,3 +1,20 @@
+import { games } from "./data.js";
+import { createGameCard } from "./render.js";
+
+// ===== Витрина из данных =====
+const catalogGrid = document.querySelector<HTMLDivElement>("#catalog-grid");
+const catalogTitle = document.querySelector<HTMLHeadingElement>("#catalog-title");
+
+if (catalogGrid !== null) {
+  for (const game of games) {
+    catalogGrid.append(createGameCard(game));
+  }
+}
+
+if (catalogTitle !== null) {
+  catalogTitle.textContent = `Все игры (${games.length})`;
+}
+
 // ===== Счётчик корзины в шапке =====
 const cartCount = document.querySelector<HTMLSpanElement>("#cart-count");
 let itemsInCart = 0;
