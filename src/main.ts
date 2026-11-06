@@ -2,6 +2,7 @@ import { games } from "./data.js";
 import type { Genre } from "./models.js";
 import { getGenres, selectGames, type CatalogFilters, type SortOrder } from "./filters.js";
 import { createGameCard } from "./render.js";
+import { findGameFromUrl, renderGamePage } from "./game-page.js";
 
 // ===== Состояние: корзина и желаемое =====
 const cart = new Set<number>();
@@ -84,6 +85,23 @@ filtersForm?.addEventListener("submit", (event) => event.preventDefault());
 
 for (const button of document.querySelectorAll<HTMLButtonElement>(".reset-filters")) {
   button.addEventListener("click", resetFilters);
+}
+
+// ===== Страница игры =====
+const gamePage = document.querySelector<HTMLElement>("#game-page");
+const gameNotFound = document.querySelector<HTMLElement>("#game-not-found");
+
+if (gamePage !== null) {
+  const game = findGameFromUrl(games);
+  if (game === undefined) {
+    gamePage.hidden = true;
+    if (gameNotFound !== null) {
+      gameNotFound.hidden = false;
+    }
+    document.title = "Игра не найдена — PixelPort";
+  } else {
+    renderGamePage(game, { inCart: cart.has(game.id), wished: wishlist.has(game.id) });
+  }
 }
 
 // ===== Кнопки карточек: один обработчик на всю страницу =====

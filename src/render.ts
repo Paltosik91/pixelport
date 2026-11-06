@@ -6,7 +6,7 @@ export interface CardState {
   wished: boolean;
 }
 
-function createPrice(game: Game): HTMLParagraphElement {
+export function createPrice(game: Game): HTMLParagraphElement {
   const price = document.createElement("p");
   price.className = "price";
 
@@ -19,6 +19,12 @@ function createPrice(game: Game): HTMLParagraphElement {
   const currentPrice = document.createElement("strong");
   currentPrice.textContent = formatPrice(finalPrice(game));
   price.append(currentPrice);
+
+  if (game.discountPercent > 0) {
+    const discount = document.createElement("mark");
+    discount.textContent = `−${game.discountPercent}%`;
+    price.append(discount);
+  }
 
   return price;
 }
@@ -39,7 +45,7 @@ export function createGameCard(game: Game, state: CardState): HTMLElement {
   wishButton.textContent = state.wished ? "♥" : "♡";
 
   const link = document.createElement("a");
-  link.href = "game.html";
+  link.href = `game.html?id=${game.id}`;
 
   const cover = document.createElement("img");
   cover.src = `img/${game.slug}.png`;

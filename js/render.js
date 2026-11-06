@@ -1,5 +1,5 @@
 import { finalPrice, formatPrice } from "./price.js";
-function createPrice(game) {
+export function createPrice(game) {
     const price = document.createElement("p");
     price.className = "price";
     if (game.discountPercent > 0) {
@@ -10,6 +10,11 @@ function createPrice(game) {
     const currentPrice = document.createElement("strong");
     currentPrice.textContent = formatPrice(finalPrice(game));
     price.append(currentPrice);
+    if (game.discountPercent > 0) {
+        const discount = document.createElement("mark");
+        discount.textContent = `−${game.discountPercent}%`;
+        price.append(discount);
+    }
     return price;
 }
 export function createGameCard(game, state) {
@@ -26,7 +31,7 @@ export function createGameCard(game, state) {
     wishButton.setAttribute("aria-label", `В желаемое: ${game.title}`);
     wishButton.textContent = state.wished ? "♥" : "♡";
     const link = document.createElement("a");
-    link.href = "game.html";
+    link.href = `game.html?id=${game.id}`;
     const cover = document.createElement("img");
     cover.src = `img/${game.slug}.png`;
     cover.alt = game.coverAlt;

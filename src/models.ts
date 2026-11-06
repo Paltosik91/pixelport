@@ -21,4 +21,5 @@ export interface Game {
   coverAlt: string;
   description: string;
   tags: string[];
+  features?: string[];
 }
