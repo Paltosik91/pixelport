@@ -711,7 +711,107 @@ button:disabled {
   font-size: 14px;
 }
 
-/* ===== 15. Узкие экраны ===== */
+/* ===== 15. Игроки и отзывы ===== */
+nav ul {
+  align-items: center;
+}
+
+.player-switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 8px;
+}
+
+.player-avatar {
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+}
+
+.player-switch select {
+  padding: 6px 10px;
+}
+
+.reviews {
+  margin-top: 40px;
+}
+
+.review-form {
+  display: grid;
+  gap: 8px;
+  max-width: 640px;
+  padding: 20px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.review-form fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0;
+}
+
+.review-form button {
+  justify-self: start;
+}
+
+.review-author {
+  margin: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.field-error {
+  min-height: 1.4em;
+  margin: 0;
+  color: #ff8a8a;
+}
+
+.review-list {
+  display: grid;
+  gap: 12px;
+  max-width: 760px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background-color: var(--color-surface);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius-md);
+}
+
+.review-no {
+  border-left-color: #ff8a8a;
+}
+
+.review img {
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.review-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0 0 4px;
+}
+
+.review-header time {
+  color: var(--color-text-muted);
+}
+
+.review p:last-child {
+  margin: 0;
+}
+
+/* ===== 16. Узкие экраны ===== */
 @media (max-width: 700px) {
   header {
     padding: 12px 16px;
@@ -777,7 +877,7 @@ button:disabled {
   }
 }
 
-/* ===== 16. Фокус и движение ===== */
+/* ===== 17. Фокус и движение ===== */
 :focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 3px;

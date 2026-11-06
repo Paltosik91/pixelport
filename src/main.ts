@@ -1,5 +1,7 @@
 import type { Game, Genre } from "./models.js";
-import { fetchGame, fetchGames, fetchGenres } from "./api.js";
+import { USE_API, fetchGame, fetchGames, fetchGenres } from "./api.js";
+import { setupPlayerSwitch } from "./player.js";
+import { setupReviews } from "./reviews.js";
 import { createLoadError, createSkeletonCards } from "./loading.js";
 import type { CatalogFilters, SortOrder } from "./filters.js";
 import { createGameCard } from "./render.js";
@@ -132,6 +134,14 @@ async function renderGameSection(): Promise<void> {
     document.title = "Игра не найдена — PixelPort";
   } else {
     renderGamePage(game, { inCart: cart.has(game.id), wished: wishlist.has(game.id) });
+    if (USE_API) {
+      await setupReviews(game.id);
+    } else {
+      const offline = document.querySelector<HTMLElement>("#reviews-offline");
+      if (offline !== null) {
+        offline.hidden = false;
+      }
+    }
   }
 }
 
@@ -292,6 +302,9 @@ async function start(): Promise<void> {
   }
 
   try {
+    if (USE_API) {
+      await setupPlayerSwitch();
+    }
     games = await fetchGames(ALL_GAMES);
     await fillGenres();
     await renderCatalog();

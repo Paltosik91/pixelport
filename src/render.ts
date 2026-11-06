@@ -59,7 +59,8 @@ export function createGameCard(game: Game, state: CardState): HTMLElement {
   link.append(cover, title);
 
   const meta = document.createElement("p");
-  meta.textContent = `${game.genre} · ${game.year} · 👍 ${game.rating}%`;
+  const rating = game.rating === null ? "нет отзывов" : `👍 ${game.rating}%`;
+  meta.textContent = `${game.genre} · ${game.year} · ${rating}`;
 
   const buyButton = document.createElement("button");
   buyButton.type = "button";

@@ -18,7 +18,7 @@ export interface Game {
   price: number;
   discountPercent: number;
   finalPrice: number;
-  rating: number;
+  rating: number | null;
   coverAlt: string;
   description: string;
 }
@@ -28,4 +28,26 @@ export interface GameDetails extends Game {
   developer: string;
   tags: string[];
   features?: string[] | null;
+  reviewsCount?: number;
+}
+
+export interface Player {
+  id: number;
+  nickname: string;
+  avatarUrl: string;
+}
+
+export interface Review {
+  id: number;
+  player: string;
+  avatarUrl: string;
+  isRecommended: boolean;
+  text: string;
+  createdAt: string;
+}
+
+export interface NewReview {
+  playerId: number;
+  isRecommended: boolean;
+  text: string;
 }

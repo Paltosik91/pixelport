@@ -7,6 +7,8 @@ public class PixelPortDb(DbContextOptions<PixelPortDb> options) : DbContext(opti
     public DbSet<Game> Games => Set<Game>();
     public DbSet<Genre> Genres => Set<Genre>();
     public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<Player> Players => Set<Player>();
+    public DbSet<Review> Reviews => Set<Review>();
 
     protected override void OnModelCreating(ModelBuilder model)
     {
@@ -29,13 +31,22 @@ public class PixelPortDb(DbContextOptions<PixelPortDb> options) : DbContext(opti
             {
                 table.HasCheckConstraint("ck_games_price", "price >= 0");
                 table.HasCheckConstraint("ck_games_discount", "discount_percent BETWEEN 0 AND 90");
-                table.HasCheckConstraint("ck_games_rating", "rating BETWEEN 0 AND 100");
             });
 
             // Игры и теги: «многие ко многим» через таблицу game_tags
             game.HasMany(g => g.Tags)
                 .WithMany(tag => tag.Games)
                 .UsingEntity("game_tags");
+        });
+
+        model.Entity<Player>().HasIndex(player => player.Nickname).IsUnique();
+
+        model.Entity<Review>(review =>
+        {
+            // Один игрок — один отзыв на игру
+            review.HasIndex(r => new { r.GameId, r.PlayerId }).IsUnique();
+            review.Property(r => r.Text).HasMaxLength(1000);
+            review.Property(r => r.CreatedAt).HasDefaultValueSql("now()");
         });
     }
 }

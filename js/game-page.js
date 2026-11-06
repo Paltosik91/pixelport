@@ -12,6 +12,13 @@ function createListItems(items) {
         return item;
     });
 }
+export function formatRatingLine(game) {
+    if (game.rating === null) {
+        return "Пока нет отзывов";
+    }
+    const count = game.reviewsCount === undefined ? "" : ` · отзывов: ${game.reviewsCount}`;
+    return `${game.rating}% положительных${count}`;
+}
 export function renderGamePage(game, state) {
     document.title = `${game.title} — PixelPort`;
     setText("#game-title", game.title);
@@ -19,7 +26,7 @@ export function renderGamePage(game, state) {
     setText("#game-genre", game.genre);
     setText("#game-year", String(game.year));
     setText("#game-developer", game.developer);
-    setText("#game-rating", `${game.rating}% положительных`);
+    setText("#game-rating", formatRatingLine(game));
     const cover = document.querySelector("#game-cover");
     if (cover !== null) {
         cover.src = `img/${game.slug}.png`;

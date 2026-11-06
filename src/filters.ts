@@ -21,7 +21,7 @@ function compareGames(a: Game, b: Game, sort: SortOrder): number {
     case "new":
       return b.year - a.year;
     case "rating":
-      return b.rating - a.rating;
+      return (b.rating ?? -1) - (a.rating ?? -1);
   }
 }
 

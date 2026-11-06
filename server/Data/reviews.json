@@ -1,0 +1,450 @@
+{
+  "players": [
+    {
+      "nickname": "Nova",
+      "avatarUrl": "img/avatars/nova.png"
+    },
+    {
+      "nickname": "BearPaw",
+      "avatarUrl": "img/avatars/bearpaw.png"
+    },
+    {
+      "nickname": "Byte",
+      "avatarUrl": "img/avatars/byte.png"
+    },
+    {
+      "nickname": "CaptainWhiskers",
+      "avatarUrl": "img/avatars/captain-whiskers.png"
+    },
+    {
+      "nickname": "SirLag",
+      "avatarUrl": "img/avatars/sir-lag.png"
+    },
+    {
+      "nickname": "Pixie",
+      "avatarUrl": "img/avatars/pixie.png"
+    }
+  ],
+  "reviews": [
+    {
+      "game": "orbital-echo",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Медленная и очень красивая. Записи экипажа читала до трёх ночи.",
+      "createdAt": "2026-10-02T10:00:00Z"
+    },
+    {
+      "game": "orbital-echo",
+      "player": "BearPaw",
+      "isRecommended": true,
+      "text": "Музыка на орбите — отдельная награда. Прошёл за два вечера.",
+      "createdAt": "2026-10-03T11:00:00Z"
+    },
+    {
+      "game": "orbital-echo",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Сюжет собирается из обрывков, как пазл. Люблю такое.",
+      "createdAt": "2026-10-04T12:00:00Z"
+    },
+    {
+      "game": "orbital-echo",
+      "player": "SirLag",
+      "isRecommended": false,
+      "text": "Слишком много ходьбы между станциями. Где кнопка бега?",
+      "createdAt": "2026-10-05T13:00:00Z"
+    },
+    {
+      "game": "orbital-echo",
+      "player": "Pixie",
+      "isRecommended": true,
+      "text": "Плакала на финале. Рекомендую с наушниками.",
+      "createdAt": "2026-10-06T14:00:00Z"
+    },
+    {
+      "game": "mossbound",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Лес светится так, что хочется просто стоять и смотреть.",
+      "createdAt": "2026-10-07T10:00:00Z"
+    },
+    {
+      "game": "mossbound",
+      "player": "CaptainWhiskers",
+      "isRecommended": true,
+      "text": "Каждая тропинка ведёт к секрету. Обожаю исследовать.",
+      "createdAt": "2026-10-08T11:00:00Z"
+    },
+    {
+      "game": "mossbound",
+      "player": "SirLag",
+      "isRecommended": true,
+      "text": "Заблудился раз двадцать, и мне понравилось.",
+      "createdAt": "2026-10-09T12:00:00Z"
+    },
+    {
+      "game": "mossbound",
+      "player": "BearPaw",
+      "isRecommended": false,
+      "text": "Красиво, но под конец затянуто. Последние ворота открывал час.",
+      "createdAt": "2026-10-10T13:00:00Z"
+    },
+    {
+      "game": "mossbound",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Атмосфера на десять из десяти.",
+      "createdAt": "2026-10-11T14:00:00Z"
+    },
+    {
+      "game": "neon-circuit",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Самые быстрые трассы, что я видел. Неон слепит в хорошем смысле.",
+      "createdAt": "2026-10-12T10:00:00Z"
+    },
+    {
+      "game": "neon-circuit",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Режим «Призрак» — гениально. Гоняюсь сама с собой каждый вечер.",
+      "createdAt": "2026-10-13T11:00:00Z"
+    },
+    {
+      "game": "neon-circuit",
+      "player": "SirLag",
+      "isRecommended": true,
+      "text": "Сетевые заезды без лагов. Даже у меня!",
+      "createdAt": "2026-10-14T12:00:00Z"
+    },
+    {
+      "game": "neon-circuit",
+      "player": "Pixie",
+      "isRecommended": true,
+      "text": "Тюнинг подсветки съел у меня полдня. Не жалею.",
+      "createdAt": "2026-10-15T13:00:00Z"
+    },
+    {
+      "game": "neon-circuit",
+      "player": "CaptainWhiskers",
+      "isRecommended": true,
+      "text": "Музыка + скорость = идеально.",
+      "createdAt": "2026-10-16T14:00:00Z"
+    },
+    {
+      "game": "iron-harbor",
+      "player": "BearPaw",
+      "isRecommended": true,
+      "text": "Строю порт третью неделю. Краны — мои лучшие друзья.",
+      "createdAt": "2026-10-17T10:00:00Z"
+    },
+    {
+      "game": "iron-harbor",
+      "player": "Byte",
+      "isRecommended": false,
+      "text": "Интерфейс перегружен, первые два часа ничего не понятно.",
+      "createdAt": "2026-10-18T11:00:00Z"
+    },
+    {
+      "game": "iron-harbor",
+      "player": "CaptainWhiskers",
+      "isRecommended": true,
+      "text": "Логистика как головоломка. Очень затягивает.",
+      "createdAt": "2026-10-19T12:00:00Z"
+    },
+    {
+      "game": "iron-harbor",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Закаты над гаванью стоят каждой копейки.",
+      "createdAt": "2026-10-20T13:00:00Z"
+    },
+    {
+      "game": "iron-harbor",
+      "player": "SirLag",
+      "isRecommended": true,
+      "text": "Мой порт однажды затонул в долгах. Было весело.",
+      "createdAt": "2026-10-21T14:00:00Z"
+    },
+    {
+      "game": "dune-runner",
+      "player": "SirLag",
+      "isRecommended": true,
+      "text": "Песок, ветер и бесконечная дорога. Медитативно.",
+      "createdAt": "2026-10-22T10:00:00Z"
+    },
+    {
+      "game": "dune-runner",
+      "player": "Pixie",
+      "isRecommended": false,
+      "text": "Машина слишком часто застревает в дюнах.",
+      "createdAt": "2026-10-23T11:00:00Z"
+    },
+    {
+      "game": "dune-runner",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Открытый мир огромный, есть что поискать.",
+      "createdAt": "2026-10-24T12:00:00Z"
+    },
+    {
+      "game": "dune-runner",
+      "player": "BearPaw",
+      "isRecommended": false,
+      "text": "Через пару часов маршруты начинают повторяться.",
+      "createdAt": "2026-10-25T13:00:00Z"
+    },
+    {
+      "game": "dune-runner",
+      "player": "CaptainWhiskers",
+      "isRecommended": true,
+      "text": "Закат в пустыне — лучший скриншот в моей коллекции.",
+      "createdAt": "2026-10-26T14:00:00Z"
+    },
+    {
+      "game": "lantern-valley",
+      "player": "Pixie",
+      "isRecommended": true,
+      "text": "Самая уютная игра года. Играем вдвоём с сестрой.",
+      "createdAt": "2026-10-27T10:00:00Z"
+    },
+    {
+      "game": "lantern-valley",
+      "player": "BearPaw",
+      "isRecommended": true,
+      "text": "Зажёг последний фонарь — и чуть не прослезился.",
+      "createdAt": "2026-10-28T11:00:00Z"
+    },
+    {
+      "game": "lantern-valley",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Загадки честные, подсказки добрые.",
+      "createdAt": "2026-10-01T12:00:00Z"
+    },
+    {
+      "game": "lantern-valley",
+      "player": "CaptainWhiskers",
+      "isRecommended": true,
+      "text": "Идеально под чай и дождь за окном.",
+      "createdAt": "2026-10-02T13:00:00Z"
+    },
+    {
+      "game": "lantern-valley",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Ни одной раздражающей головоломки.",
+      "createdAt": "2026-10-03T14:00:00Z"
+    },
+    {
+      "game": "polar-signal",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Азбука Морзе по-настоящему! Выучил половину алфавита.",
+      "createdAt": "2026-10-04T10:00:00Z"
+    },
+    {
+      "game": "polar-signal",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Смена дня и ночи меняет подсказки — гениальная механика.",
+      "createdAt": "2026-10-05T11:00:00Z"
+    },
+    {
+      "game": "polar-signal",
+      "player": "SirLag",
+      "isRecommended": false,
+      "text": "Застрял на третьем сигнале и бросил. Сложно.",
+      "createdAt": "2026-10-06T12:00:00Z"
+    },
+    {
+      "game": "polar-signal",
+      "player": "BearPaw",
+      "isRecommended": true,
+      "text": "Холодно, тихо и очень атмосферно.",
+      "createdAt": "2026-10-07T13:00:00Z"
+    },
+    {
+      "game": "polar-signal",
+      "player": "Pixie",
+      "isRecommended": true,
+      "text": "Дневник исследователя хочется распечатать и повесить на стену.",
+      "createdAt": "2026-10-08T14:00:00Z"
+    },
+    {
+      "game": "crimson-keep",
+      "player": "SirLag",
+      "isRecommended": true,
+      "text": "Наконец-то игра про рыцарей! Держу оборону уже десятый штурм.",
+      "createdAt": "2026-10-09T10:00:00Z"
+    },
+    {
+      "game": "crimson-keep",
+      "player": "BearPaw",
+      "isRecommended": true,
+      "text": "Каждое решение о ресурсах важно. Отличный баланс.",
+      "createdAt": "2026-10-10T11:00:00Z"
+    },
+    {
+      "game": "crimson-keep",
+      "player": "CaptainWhiskers",
+      "isRecommended": false,
+      "text": "Последняя осада слишком сложная даже на лёгком.",
+      "createdAt": "2026-10-11T12:00:00Z"
+    },
+    {
+      "game": "crimson-keep",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Сюжет между битвами неожиданно хороший.",
+      "createdAt": "2026-10-12T13:00:00Z"
+    },
+    {
+      "game": "crimson-keep",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Замки рисовали с любовью.",
+      "createdAt": "2026-10-13T14:00:00Z"
+    },
+    {
+      "game": "hollow-bell",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Боялась звука колокола всю игру. Работает!",
+      "createdAt": "2026-10-14T10:00:00Z"
+    },
+    {
+      "game": "hollow-bell",
+      "player": "Pixie",
+      "isRecommended": false,
+      "text": "Слишком страшно для меня, удалила через час.",
+      "createdAt": "2026-10-15T11:00:00Z"
+    },
+    {
+      "game": "hollow-bell",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Туман и звук делают всё. Ни одного дешёвого скримера.",
+      "createdAt": "2026-10-16T12:00:00Z"
+    },
+    {
+      "game": "hollow-bell",
+      "player": "SirLag",
+      "isRecommended": true,
+      "text": "Детективная часть сильнее, чем ожидал.",
+      "createdAt": "2026-10-17T13:00:00Z"
+    },
+    {
+      "game": "hollow-bell",
+      "player": "CaptainWhiskers",
+      "isRecommended": true,
+      "text": "Прошёл днём, с включённым светом. Отлично.",
+      "createdAt": "2026-10-18T14:00:00Z"
+    },
+    {
+      "game": "cloud-bakery",
+      "player": "Pixie",
+      "isRecommended": true,
+      "text": "Пеку хлеб на облаках с подругой. Счастье.",
+      "createdAt": "2026-10-19T10:00:00Z"
+    },
+    {
+      "game": "cloud-bakery",
+      "player": "CaptainWhiskers",
+      "isRecommended": true,
+      "text": "Доставка на дирижабле — лучшая мини-игра года.",
+      "createdAt": "2026-10-20T11:00:00Z"
+    },
+    {
+      "game": "cloud-bakery",
+      "player": "BearPaw",
+      "isRecommended": true,
+      "text": "Сорок рецептов, и все пахнут через экран.",
+      "createdAt": "2026-10-21T12:00:00Z"
+    },
+    {
+      "game": "cloud-bakery",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Спокойно, мило, без спешки.",
+      "createdAt": "2026-10-22T13:00:00Z"
+    },
+    {
+      "game": "cloud-bakery",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Лучшая игра для двоих на одном экране.",
+      "createdAt": "2026-10-23T14:00:00Z"
+    },
+    {
+      "game": "ember-leap",
+      "player": "SirLag",
+      "isRecommended": false,
+      "text": "Умер 400 раз на втором уровне. Рекомендую врагам.",
+      "createdAt": "2026-10-24T10:00:00Z"
+    },
+    {
+      "game": "ember-leap",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Хардкор, но честный. Каждая смерть — моя вина.",
+      "createdAt": "2026-10-25T11:00:00Z"
+    },
+    {
+      "game": "ember-leap",
+      "player": "BearPaw",
+      "isRecommended": true,
+      "text": "Ретро-графика и отличная музыка.",
+      "createdAt": "2026-10-26T12:00:00Z"
+    },
+    {
+      "game": "ember-leap",
+      "player": "Pixie",
+      "isRecommended": false,
+      "text": "Слишком сложно, нервы не выдержали.",
+      "createdAt": "2026-10-27T13:00:00Z"
+    },
+    {
+      "game": "ember-leap",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Прошла! Горжусь собой больше, чем дипломом.",
+      "createdAt": "2026-10-28T14:00:00Z"
+    },
+    {
+      "game": "skyline-strikers",
+      "player": "Byte",
+      "isRecommended": true,
+      "text": "Турниры по выходным — теперь моя традиция.",
+      "createdAt": "2026-10-01T10:00:00Z"
+    },
+    {
+      "game": "skyline-strikers",
+      "player": "SirLag",
+      "isRecommended": false,
+      "text": "Команда постоянно попадается с читерами.",
+      "createdAt": "2026-10-02T11:00:00Z"
+    },
+    {
+      "game": "skyline-strikers",
+      "player": "Nova",
+      "isRecommended": true,
+      "text": "Ховерборды над крышами — это красиво.",
+      "createdAt": "2026-10-03T12:00:00Z"
+    },
+    {
+      "game": "skyline-strikers",
+      "player": "Pixie",
+      "isRecommended": false,
+      "text": "Без друзей играть скучно, а матчмейкинг долгий.",
+      "createdAt": "2026-10-04T13:00:00Z"
+    },
+    {
+      "game": "skyline-strikers",
+      "player": "CaptainWhiskers",
+      "isRecommended": true,
+      "text": "Мяч светится, город светится, я свечусь от счастья.",
+      "createdAt": "2026-10-05T14:00:00Z"
+    }
+  ]
+}

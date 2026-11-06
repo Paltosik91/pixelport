@@ -7,7 +7,7 @@ public static class CatalogSeeder
 {
     private record CatalogItem(
         string Slug, string Title, string Genre, int Year, string Developer,
-        int Price, int DiscountPercent, int Rating, string CoverAlt, string Description,
+        int Price, int DiscountPercent, string CoverAlt, string Description,
         string[] Tags, string[]? Features);
 
     public static int SeedIfEmpty(PixelPortDb db, string catalogPath)
@@ -40,7 +40,6 @@ public static class CatalogSeeder
                 ReleaseYear = item.Year,
                 Price = item.Price,
                 DiscountPercent = item.DiscountPercent,
-                Rating = item.Rating,
                 CoverAlt = item.CoverAlt,
                 Description = item.Description,
                 Features = item.Features?.ToList(),
@@ -62,5 +61,43 @@ public static class CatalogSeeder
         }
 
         return items.Count;
+    }
+
+    private record SeedPlayer(string Nickname, string AvatarUrl);
+    private record SeedReview(string Game, string Player, bool IsRecommended, string Text, DateTime CreatedAt);
+    private record SeedReviews(List<SeedPlayer> Players, List<SeedReview> Reviews);
+
+    // Игроки и отзывы для начала: если игроков нет, переносим их из reviews.json
+    public static int SeedReviewsIfEmpty(PixelPortDb db, string reviewsPath)
+    {
+        if (db.Players.Any())
+        {
+            return 0;
+        }
+
+        string json = File.ReadAllText(reviewsPath);
+        var seed = JsonSerializer.Deserialize<SeedReviews>(json, JsonSerializerOptions.Web)
+            ?? throw new InvalidDataException($"Файл {reviewsPath} пуст");
+
+        var players = seed.Players.ToDictionary(
+            item => item.Nickname,
+            item => new Player { Nickname = item.Nickname, AvatarUrl = item.AvatarUrl });
+        db.Players.AddRange(players.Values);
+
+        var games = db.Games.ToDictionary(game => game.Slug);
+        foreach (SeedReview item in seed.Reviews)
+        {
+            db.Reviews.Add(new Review
+            {
+                Game = games[item.Game],
+                Player = players[item.Player],
+                IsRecommended = item.IsRecommended,
+                Text = item.Text,
+                CreatedAt = item.CreatedAt,
+            });
+        }
+
+        db.SaveChanges();
+        return seed.Reviews.Count;
     }
 }

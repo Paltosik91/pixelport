@@ -46,7 +46,10 @@ public static class GameEndpoints
                 "price-desc" => found.OrderByDescending(game => game.FinalPrice),
                 "discount" => found.OrderByDescending(game => game.DiscountPercent),
                 "new" => found.OrderByDescending(game => game.ReleaseYear),
-                _ => found.OrderByDescending(game => game.Rating),
+                // Та же формула рейтинга, что в GameMapping; игры без отзывов — в конце
+                _ => found.OrderByDescending(game => game.Reviews.Count == 0
+                    ? -1
+                    : game.Reviews.Count(review => review.IsRecommended) * 100 / game.Reviews.Count),
             };
 
             List<GameSummary> result = await found.Select(GameMapping.ToSummary).ToListAsync();

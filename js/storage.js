@@ -22,4 +22,10 @@ export function loadIds(name) {
 export function saveIds(name, ids) {
     localStorage.setItem(storageKey(name), JSON.stringify([...ids]));
 }
+export function loadText(name) {
+    return localStorage.getItem(storageKey(name));
+}
+export function saveText(name, value) {
+    localStorage.setItem(storageKey(name), value);
+}
 //# sourceMappingURL=storage.js.map

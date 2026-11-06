@@ -69,4 +69,26 @@ export async function fetchGenres() {
     }
     return getGenres(await loadStaticCatalog());
 }
+// ===== Игроки и отзывы: только с сервером =====
+export async function fetchPlayers() {
+    return getJson(`${API_BASE}/players`);
+}
+export async function fetchReviews(gameId) {
+    return getJson(`${API_BASE}/games/${gameId}/reviews`);
+}
+export async function postReview(gameId, input) {
+    const response = await fetch(`${API_BASE}/games/${gameId}/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+    });
+    if (response.ok) {
+        return { ok: true, review: (await response.json()) };
+    }
+    if (response.status >= 400 && response.status < 500) {
+        const problem = (await response.json());
+        return { ok: false, message: problem.detail ?? problem.title, errors: problem.errors ?? {} };
+    }
+    throw new Error(`Сервер ответил ошибкой ${response.status}`);
+}
 //# sourceMappingURL=api.js.map

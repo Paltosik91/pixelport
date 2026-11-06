@@ -26,3 +26,11 @@ export function loadIds(name: string): Set<number> {
 export function saveIds(name: string, ids: Set<number>): void {
   localStorage.setItem(storageKey(name), JSON.stringify([...ids]));
 }
+
+export function loadText(name: string): string | null {
+  return localStorage.getItem(storageKey(name));
+}
+
+export function saveText(name: string, value: string): void {
+  localStorage.setItem(storageKey(name), value);
+}

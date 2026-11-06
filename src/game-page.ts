@@ -16,6 +16,14 @@ function createListItems(items: string[]): HTMLLIElement[] {
   });
 }
 
+export function formatRatingLine(game: GameDetails): string {
+  if (game.rating === null) {
+    return "Пока нет отзывов";
+  }
+  const count = game.reviewsCount === undefined ? "" : ` · отзывов: ${game.reviewsCount}`;
+  return `${game.rating}% положительных${count}`;
+}
+
 export function renderGamePage(game: GameDetails, state: CardState): void {
   document.title = `${game.title} — PixelPort`;
 
@@ -24,7 +32,7 @@ export function renderGamePage(game: GameDetails, state: CardState): void {
   setText("#game-genre", game.genre);
   setText("#game-year", String(game.year));
   setText("#game-developer", game.developer);
-  setText("#game-rating", `${game.rating}% положительных`);
+  setText("#game-rating", formatRatingLine(game));
 
   const cover = document.querySelector<HTMLImageElement>("#game-cover");
   if (cover !== null) {

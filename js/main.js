@@ -1,4 +1,6 @@
-import { fetchGame, fetchGames, fetchGenres } from "./api.js";
+import { USE_API, fetchGame, fetchGames, fetchGenres } from "./api.js";
+import { setupPlayerSwitch } from "./player.js";
+import { setupReviews } from "./reviews.js";
 import { createLoadError, createSkeletonCards } from "./loading.js";
 import { createGameCard } from "./render.js";
 import { getGameIdFromUrl, renderGamePage } from "./game-page.js";
@@ -111,6 +113,15 @@ async function renderGameSection() {
     }
     else {
         renderGamePage(game, { inCart: cart.has(game.id), wished: wishlist.has(game.id) });
+        if (USE_API) {
+            await setupReviews(game.id);
+        }
+        else {
+            const offline = document.querySelector("#reviews-offline");
+            if (offline !== null) {
+                offline.hidden = false;
+            }
+        }
     }
 }
 // ===== Страница корзины =====
@@ -248,6 +259,9 @@ async function start() {
         filtersForm.inert = true;
     }
     try {
+        if (USE_API) {
+            await setupPlayerSwitch();
+        }
         games = await fetchGames(ALL_GAMES);
         await fillGenres();
         await renderCatalog();

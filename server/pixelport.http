@@ -27,6 +27,36 @@ GET {{host}}/api/games/neon
 ### Жанры с количеством игр
 GET {{host}}/api/genres
 
+### Игроки для переключателя «Играю как…»
+GET {{host}}/api/players
+
+### Отзывы на Neon Circuit, новые сверху
+GET {{host}}/api/games/3/reviews
+
+### Новый отзыв → 201 (BearPaw ещё не писал о Neon Circuit)
+POST {{host}}/api/games/3/reviews
+Content-Type: application/json
+
+{ "playerId": 2, "isRecommended": false, "text": "Слишком быстро для меня, укачало." }
+
+### Тот же игрок второй раз → 500 (а в квесте ★★★ — 409)
+POST {{host}}/api/games/3/reviews
+Content-Type: application/json
+
+{ "playerId": 2, "isRecommended": true, "text": "Передумал, всё-таки отличная игра!" }
+
+### Короткий текст и несуществующий игрок → 400 с двумя ошибками
+POST {{host}}/api/games/3/reviews
+Content-Type: application/json
+
+{ "playerId": 99, "isRecommended": true, "text": "ок" }
+
+### Отзыв на несуществующую игру → 404
+POST {{host}}/api/games/999/reviews
+Content-Type: application/json
+
+{ "playerId": 1, "isRecommended": true, "text": "Такой игры нет, но отзыв хочется" }
+
 ### Файлы сервера наружу не отдаются
 GET {{host}}/server/appsettings.json
 

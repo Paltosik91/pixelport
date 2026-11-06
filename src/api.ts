@@ -1,4 +1,4 @@
-import type { Game, GameDetails, Genre } from "./models.js";
+import type { Game, GameDetails, Genre, NewReview, Player, Review } from "./models.js";
 import { getGenres, selectGames, type CatalogFilters } from "./filters.js";
 import { calculateFinalPrice } from "./price.js";
 
@@ -78,4 +78,40 @@ export async function fetchGenres(): Promise<Genre[]> {
     return genres.map((genre) => genre.name);
   }
   return getGenres(await loadStaticCatalog());
+}
+
+// ===== Игроки и отзывы: только с сервером =====
+export async function fetchPlayers(): Promise<Player[]> {
+  return getJson<Player[]>(`${API_BASE}/players`);
+}
+
+export async function fetchReviews(gameId: number): Promise<Review[]> {
+  return getJson<Review[]>(`${API_BASE}/games/${gameId}/reviews`);
+}
+
+interface ProblemDetails {
+  title: string;
+  detail?: string;
+  errors?: Record<string, string[]>;
+}
+
+export type PostReviewResult =
+  | { ok: true; review: Review }
+  | { ok: false; message: string; errors: Record<string, string[]> };
+
+export async function postReview(gameId: number, input: NewReview): Promise<PostReviewResult> {
+  const response = await fetch(`${API_BASE}/games/${gameId}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+
+  if (response.ok) {
+    return { ok: true, review: (await response.json()) as Review };
+  }
+  if (response.status >= 400 && response.status < 500) {
+    const problem = (await response.json()) as ProblemDetails;
+    return { ok: false, message: problem.detail ?? problem.title, errors: problem.errors ?? {} };
+  }
+  throw new Error(`Сервер ответил ошибкой ${response.status}`);
 }
