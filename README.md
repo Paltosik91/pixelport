@@ -15,7 +15,12 @@
 
 ## Как запустить локально
 
-Открыть папку в VS Code и запустить `index.html` через Live Server.
+```bash
+npm install
+npm run build
+```
+
+Затем открыть `index.html` через Live Server.
 
 ## Автор
 

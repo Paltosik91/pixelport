@@ -352,7 +352,46 @@ form {
   border-radius: var(--radius-md);
 }
 
-/* ===== 10. Узкие экраны ===== */
+/* ===== 10. Кнопки карточки ===== */
+.buy-button {
+  width: 100%;
+  margin-top: 12px;
+}
+
+button:disabled {
+  background-color: var(--color-surface-raised);
+  color: var(--color-text-muted);
+  cursor: default;
+  filter: none;
+  transform: none;
+}
+
+.wish-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background-color: rgba(16, 21, 29, 0.75);
+  color: var(--color-text);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.wish-button[aria-pressed="true"] {
+  color: #ff6b8b;
+}
+
+.wish-button-inline {
+  position: static;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* ===== 11. Узкие экраны ===== */
 @media (max-width: 700px) {
   header {
     padding: 12px 16px;
@@ -397,7 +436,7 @@ form {
   }
 }
 
-/* ===== 11. Фокус и движение ===== */
+/* ===== 12. Фокус и движение ===== */
 :focus-visible {
   outline: 3px solid var(--color-accent);
   outline-offset: 3px;

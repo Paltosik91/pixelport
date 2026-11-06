@@ -7,6 +7,7 @@
   <title>Neon Circuit — PixelPort</title>
   <link rel="icon" href="img/logo-mark.svg">
   <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/main.js"></script>
 </head>
 <body>
   <header>
@@ -17,7 +18,7 @@
       <ul>
         <li><a href="index.html" aria-current="page">Магазин</a></li>
         <li><a href="library.html">Библиотека</a></li>
-        <li><a href="cart.html">Корзина (2)</a></li>
+        <li><a href="cart.html">Корзина (<span id="cart-count">0</span>)</a></li>
         <li><a href="admin.html">Админка</a></li>
       </ul>
     </nav>
@@ -65,7 +66,8 @@
           <strong>599 ₽</strong>
           <mark>−60%</mark>
         </p>
-        <button type="button">Купить</button>
+        <button type="button" class="buy-button" data-title="Neon Circuit">Купить</button>
+        <button type="button" class="wish-button wish-button-inline" aria-pressed="false" aria-label="В желаемое: Neon Circuit">♡</button>
       </div>
     </div>
 
