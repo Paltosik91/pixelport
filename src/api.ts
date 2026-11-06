@@ -34,6 +34,9 @@ function toQuery(filters: CatalogFilters): string {
   if (filters.onlySale) {
     params.set("onlySale", "true");
   }
+  if (filters.editorsChoice) {
+    params.set("editorsChoice", "true");
+  }
   params.set("sort", filters.sort);
   return params.toString();
 }
@@ -43,10 +46,13 @@ let staticGames: GameDetails[] | null = null;
 
 async function loadStaticCatalog(): Promise<GameDetails[]> {
   if (staticGames === null) {
-    const raw = await getJson<Omit<GameDetails, "finalPrice">[]>(CATALOG_URL);
-    staticGames = raw.map((game) => ({
+    // В файле отметка называется editorsChoice и есть только у игр подборки
+    type CatalogItem = Omit<GameDetails, "finalPrice" | "isEditorsChoice"> & { editorsChoice?: boolean };
+    const raw = await getJson<CatalogItem[]>(CATALOG_URL);
+    staticGames = raw.map(({ editorsChoice, ...game }) => ({
       ...game,
       finalPrice: calculateFinalPrice(game.price, game.discountPercent),
+      isEditorsChoice: editorsChoice ?? false,
     }));
   }
   return staticGames;

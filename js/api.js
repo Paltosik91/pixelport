@@ -27,6 +27,9 @@ function toQuery(filters) {
     if (filters.onlySale) {
         params.set("onlySale", "true");
     }
+    if (filters.editorsChoice) {
+        params.set("editorsChoice", "true");
+    }
     params.set("sort", filters.sort);
     return params.toString();
 }
@@ -35,9 +38,10 @@ let staticGames = null;
 async function loadStaticCatalog() {
     if (staticGames === null) {
         const raw = await getJson(CATALOG_URL);
-        staticGames = raw.map((game) => ({
+        staticGames = raw.map(({ editorsChoice, ...game }) => ({
             ...game,
             finalPrice: calculateFinalPrice(game.price, game.discountPercent),
+            isEditorsChoice: editorsChoice ?? false,
         }));
     }
     return staticGames;

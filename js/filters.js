@@ -19,7 +19,8 @@ export function selectGames(allGames, filters) {
         const matchesGenre = filters.genre === "" || game.genre === filters.genre;
         const matchesPrice = filters.maxPrice === null || game.finalPrice <= filters.maxPrice;
         const matchesSale = !filters.onlySale || game.discountPercent > 0;
-        return matchesQuery && matchesGenre && matchesPrice && matchesSale;
+        const matchesChoice = !filters.editorsChoice || game.isEditorsChoice;
+        return matchesQuery && matchesGenre && matchesPrice && matchesSale && matchesChoice;
     });
     found.sort((a, b) => compareGames(a, b, filters.sort));
     return found;

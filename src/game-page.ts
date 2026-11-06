@@ -34,6 +34,11 @@ export function renderGamePage(game: GameDetails, state: CardState): void {
   setText("#game-developer", game.developer);
   setText("#game-rating", formatRatingLine(game));
 
+  const choiceBadge = document.querySelector<HTMLElement>("#game-editors-choice");
+  if (choiceBadge !== null) {
+    choiceBadge.hidden = !game.isEditorsChoice;
+  }
+
   const cover = document.querySelector<HTMLImageElement>("#game-cover");
   if (cover !== null) {
     useFallbackImage(cover);

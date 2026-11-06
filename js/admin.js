@@ -1,7 +1,7 @@
 import { deleteGame, fetchGame, fetchGames, fetchGenres, postGame, putDiscount, putGame } from "./api.js";
 import { formatPrice } from "./price.js";
 import { setText } from "./dom.js";
-const ALL_GAMES = { query: "", genre: "", maxPrice: null, onlySale: false, sort: "new" };
+const ALL_GAMES = { query: "", genre: "", maxPrice: null, onlySale: false, editorsChoice: false, sort: "new" };
 // Какую игру сейчас правим в форме; null — добавляем новую
 let editingId = null;
 function readGameInput(form) {

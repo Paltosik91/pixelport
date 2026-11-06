@@ -188,6 +188,36 @@ footer {
   border-radius: var(--radius-sm);
 }
 
+/* Бейдж «Выбор редакции»: левый нижний угол обложки */
+.cover-box {
+  position: relative;
+  display: block;
+}
+
+.cover-box img {
+  display: block;
+}
+
+.editors-badge {
+  padding: 4px 10px;
+  background-color: #ffd36e;
+  color: #10151d;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cover-box .editors-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+}
+
+.editors-badge-inline {
+  display: inline-block;
+  margin: 0 0 12px;
+}
+
 .card h3 {
   margin: 12px 0 4px;
 }

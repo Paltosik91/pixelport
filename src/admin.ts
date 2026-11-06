@@ -4,7 +4,7 @@ import { deleteGame, fetchGame, fetchGames, fetchGenres, postGame, putDiscount, 
 import { formatPrice } from "./price.js";
 import { setText } from "./dom.js";
 
-const ALL_GAMES: CatalogFilters = { query: "", genre: "", maxPrice: null, onlySale: false, sort: "new" };
+const ALL_GAMES: CatalogFilters = { query: "", genre: "", maxPrice: null, onlySale: false, editorsChoice: false, sort: "new" };
 
 // Какую игру сейчас правим в форме; null — добавляем новую
 let editingId: number | null = null;
