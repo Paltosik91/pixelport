@@ -66,23 +66,35 @@ h3 {
 
 /* ===== 3. Шапка, содержимое, подвал ===== */
 header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   padding: 16px 24px;
   background-color: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
 
 nav ul {
-  margin: 12px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
 nav a {
+  display: block;
+  padding: 8px 14px;
   color: var(--color-text);
+  border-radius: var(--radius-sm);
   text-decoration: none;
 }
 
 nav a[aria-current="page"] {
+  background-color: var(--color-surface-raised);
   color: var(--color-accent);
   font-weight: 700;
 }
@@ -103,22 +115,30 @@ footer {
 
 /* ===== 4. Витрина: баннер и карточки ===== */
 .hero {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  align-items: center;
+  gap: 32px;
   padding: 32px;
   background-color: var(--color-surface);
   border-radius: var(--radius-lg);
 }
 
 .hero img {
-  margin: 16px 0;
+  width: 100%;
   border-radius: var(--radius-md);
 }
 
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
 .card {
-  display: inline-block; /* временно: в №04 карточки встанут в Grid */
-  width: 220px;
-  margin: 0 12px 16px 0;
+  display: flex;
+  flex-direction: column;
   padding: 12px;
-  vertical-align: top;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -143,7 +163,19 @@ footer {
   color: var(--color-text-muted);
 }
 
+.card .price {
+  margin-top: auto;
+  padding-top: 8px;
+}
+
 /* ===== 5. Цена и скидка ===== */
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
 .price del {
   color: var(--color-text-muted);
 }
@@ -234,4 +266,17 @@ textarea {
 
 form {
   margin: 16px 0;
+}
+
+/* ===== 9. Страница игры ===== */
+.game-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  align-items: start;
+  gap: 40px;
+}
+
+.game-cover {
+  width: 100%;
+  border-radius: var(--radius-md);
 }
