@@ -1,4 +1,4 @@
-import { finalPrice, formatPrice } from "./price.js";
+import { formatPrice } from "./price.js";
 export function createPrice(game) {
     const price = document.createElement("p");
     price.className = "price";
@@ -8,7 +8,7 @@ export function createPrice(game) {
         price.append(oldPrice);
     }
     const currentPrice = document.createElement("strong");
-    currentPrice.textContent = formatPrice(finalPrice(game));
+    currentPrice.textContent = formatPrice(game.finalPrice);
     price.append(currentPrice);
     if (game.discountPercent > 0) {
         const discount = document.createElement("mark");

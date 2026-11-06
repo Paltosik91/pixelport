@@ -1,5 +1,5 @@
 import type { Game } from "./models.js";
-import { finalPrice, formatPrice } from "./price.js";
+import { formatPrice } from "./price.js";
 
 const PROMO_CODES: Record<string, number> = {
   PIXEL10: 10,
@@ -21,7 +21,7 @@ export function getCartGames(allGames: Game[], cart: Set<number>): Game[] {
 }
 
 export function calculateTotals(cartGames: Game[], promoPercent: number): CartTotals {
-  const subtotal = cartGames.reduce((sum, game) => sum + finalPrice(game), 0);
+  const subtotal = cartGames.reduce((sum, game) => sum + game.finalPrice, 0);
   const discount = Math.floor((subtotal * promoPercent) / 100);
   return { subtotal, discount, total: subtotal - discount };
 }
@@ -41,7 +41,7 @@ export function createCartRow(game: Game): HTMLTableRowElement {
   gameCell.append(cover, link);
 
   const priceCell = document.createElement("td");
-  priceCell.textContent = formatPrice(finalPrice(game));
+  priceCell.textContent = formatPrice(game.finalPrice);
 
   const actionCell = document.createElement("td");
   const removeButton = document.createElement("button");

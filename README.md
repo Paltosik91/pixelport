@@ -31,8 +31,10 @@ cd server
 dotnet run
 ```
 
-Сайт откроется на http://localhost:5080, каталог в JSON — на
-http://localhost:5080/api/games. Примеры запросов — в `server/pixelport.http`.
+Сайт откроется на http://localhost:5080 и будет брать данные из API
+(`/api/games`, `/api/games/{id}`, `/api/genres`). На Live Server и GitHub Pages
+витрина работает без сервера, на `data/catalog.json`. Примеры запросов —
+в `server/pixelport.http`.
 
 ## Автор
 

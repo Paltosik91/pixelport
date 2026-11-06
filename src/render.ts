@@ -1,5 +1,5 @@
 import type { Game } from "./models.js";
-import { finalPrice, formatPrice } from "./price.js";
+import { formatPrice } from "./price.js";
 
 export interface CardState {
   inCart: boolean;
@@ -17,7 +17,7 @@ export function createPrice(game: Game): HTMLParagraphElement {
   }
 
   const currentPrice = document.createElement("strong");
-  currentPrice.textContent = formatPrice(finalPrice(game));
+  currentPrice.textContent = formatPrice(game.finalPrice);
   price.append(currentPrice);
 
   if (game.discountPercent > 0) {

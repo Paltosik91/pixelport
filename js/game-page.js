@@ -1,10 +1,9 @@
 import { createPrice } from "./render.js";
 import { createSlider } from "./slider.js";
 import { setText } from "./dom.js";
-export function findGameFromUrl(allGames) {
+export function getGameIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
-    const id = Number(params.get("id"));
-    return allGames.find((game) => game.id === id);
+    return Number(params.get("id"));
 }
 function createListItems(items) {
     return items.map((text) => {
@@ -34,12 +33,9 @@ export function renderGamePage(game, state) {
     document.querySelector("#game-tags")?.replaceChildren(...createListItems(game.tags));
     const featuresSection = document.querySelector("#game-features");
     if (featuresSection !== null) {
-        if (game.features === undefined) {
-            featuresSection.hidden = true;
-        }
-        else {
-            featuresSection.querySelector("ul")?.replaceChildren(...createListItems(game.features));
-        }
+        const features = game.features ?? [];
+        featuresSection.hidden = features.length === 0;
+        featuresSection.querySelector("ul")?.replaceChildren(...createListItems(features));
     }
     document.querySelector("#game-price")?.replaceChildren(createPrice(game));
     const buyButton = document.querySelector("#game-buy");

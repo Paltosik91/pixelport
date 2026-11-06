@@ -1,5 +1,5 @@
-export function finalPrice(game) {
-    return Math.floor((game.price * (100 - game.discountPercent)) / 100);
+export function calculateFinalPrice(price, discountPercent) {
+    return Math.floor((price * (100 - discountPercent)) / 100);
 }
 export function formatPrice(rubles) {
     return `${rubles} ₽`;

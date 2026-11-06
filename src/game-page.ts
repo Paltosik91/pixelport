@@ -1,12 +1,11 @@
-import type { Game } from "./models.js";
+import type { GameDetails } from "./models.js";
 import { createPrice, type CardState } from "./render.js";
 import { createSlider } from "./slider.js";
 import { setText } from "./dom.js";
 
-export function findGameFromUrl(allGames: Game[]): Game | undefined {
+export function getGameIdFromUrl(): number {
   const params = new URLSearchParams(window.location.search);
-  const id = Number(params.get("id"));
-  return allGames.find((game) => game.id === id);
+  return Number(params.get("id"));
 }
 
 function createListItems(items: string[]): HTMLLIElement[] {
@@ -17,7 +16,7 @@ function createListItems(items: string[]): HTMLLIElement[] {
   });
 }
 
-export function renderGamePage(game: Game, state: CardState): void {
+export function renderGamePage(game: GameDetails, state: CardState): void {
   document.title = `${game.title} — PixelPort`;
 
   setText("#game-title", game.title);
@@ -43,11 +42,9 @@ export function renderGamePage(game: Game, state: CardState): void {
 
   const featuresSection = document.querySelector<HTMLElement>("#game-features");
   if (featuresSection !== null) {
-    if (game.features === undefined) {
-      featuresSection.hidden = true;
-    } else {
-      featuresSection.querySelector("ul")?.replaceChildren(...createListItems(game.features));
-    }
+    const features = game.features ?? [];
+    featuresSection.hidden = features.length === 0;
+    featuresSection.querySelector("ul")?.replaceChildren(...createListItems(features));
   }
 
   document.querySelector("#game-price")?.replaceChildren(createPrice(game));

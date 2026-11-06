@@ -1,4 +1,4 @@
-import { finalPrice, formatPrice } from "./price.js";
+import { formatPrice } from "./price.js";
 const PROMO_CODES = {
     PIXEL10: 10,
     WINTER25: 25,
@@ -10,7 +10,7 @@ export function getCartGames(allGames, cart) {
     return allGames.filter((game) => cart.has(game.id));
 }
 export function calculateTotals(cartGames, promoPercent) {
-    const subtotal = cartGames.reduce((sum, game) => sum + finalPrice(game), 0);
+    const subtotal = cartGames.reduce((sum, game) => sum + game.finalPrice, 0);
     const discount = Math.floor((subtotal * promoPercent) / 100);
     return { subtotal, discount, total: subtotal - discount };
 }
@@ -27,7 +27,7 @@ export function createCartRow(game) {
     link.textContent = game.title;
     gameCell.append(cover, link);
     const priceCell = document.createElement("td");
-    priceCell.textContent = formatPrice(finalPrice(game));
+    priceCell.textContent = formatPrice(game.finalPrice);
     const actionCell = document.createElement("td");
     const removeButton = document.createElement("button");
     removeButton.type = "button";

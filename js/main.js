@@ -1,8 +1,7 @@
-import { loadGames } from "./api.js";
+import { fetchGame, fetchGames, fetchGenres } from "./api.js";
 import { createLoadError, createSkeletonCards } from "./loading.js";
-import { getGenres, selectGames } from "./filters.js";
 import { createGameCard } from "./render.js";
-import { findGameFromUrl, renderGamePage } from "./game-page.js";
+import { getGameIdFromUrl, renderGamePage } from "./game-page.js";
 import { loadIds, saveIds } from "./storage.js";
 import { calculateTotals, createCartRow, getCartGames, getPromoPercent } from "./cart.js";
 import { formatPrice } from "./price.js";
@@ -31,11 +30,14 @@ const priceSelect = document.querySelector("#max-price");
 const sortSelect = document.querySelector("#sort");
 const saleCheckbox = document.querySelector("#only-sale");
 // ===== Фильтры =====
-function fillGenres() {
+const ALL_GAMES = { query: "", genre: "", maxPrice: null, onlySale: false, sort: "rating" };
+async function fillGenres() {
     if (genreSelect === null) {
         return;
     }
-    for (const genre of getGenres(games)) {
+    const genres = await fetchGenres();
+    genreSelect.length = 1; // оставить только «Все жанры», если это повторная попытка
+    for (const genre of genres) {
         const option = document.createElement("option");
         option.value = genre;
         option.textContent = genre;
@@ -52,11 +54,11 @@ function readFilters() {
         sort: (sortSelect?.value ?? "rating"),
     };
 }
-function renderCatalog() {
+async function renderCatalog() {
     if (catalogGrid === null) {
         return;
     }
-    const found = selectGames(games, readFilters());
+    const found = await fetchGames(readFilters());
     const cards = found.map((game) => createGameCard(game, { inCart: cart.has(game.id), wished: wishlist.has(game.id) }));
     catalogGrid.replaceChildren(...cards);
     if (catalogTitle !== null) {
@@ -69,11 +71,25 @@ function renderCatalog() {
         emptyState.hidden = found.length > 0;
     }
 }
+async function updateCatalog() {
+    try {
+        await renderCatalog();
+    }
+    catch (error) {
+        showLoadError(error, updateCatalog);
+    }
+}
+// Ждём, пока покупатель перестанет печатать, и только тогда спрашиваем сервер
+let filterTimer;
+function onFiltersChanged() {
+    clearTimeout(filterTimer);
+    filterTimer = setTimeout(updateCatalog, 300);
+}
 function resetFilters() {
     filtersForm?.reset();
-    renderCatalog();
+    updateCatalog();
 }
-filtersForm?.addEventListener("input", renderCatalog);
+filtersForm?.addEventListener("input", onFiltersChanged);
 filtersForm?.addEventListener("submit", (event) => event.preventDefault());
 for (const button of document.querySelectorAll(".reset-filters")) {
     button.addEventListener("click", resetFilters);
@@ -81,11 +97,11 @@ for (const button of document.querySelectorAll(".reset-filters")) {
 // ===== Страница игры =====
 const gamePage = document.querySelector("#game-page");
 const gameNotFound = document.querySelector("#game-not-found");
-function renderGameSection() {
+async function renderGameSection() {
     if (gamePage === null) {
         return;
     }
-    const game = findGameFromUrl(games);
+    const game = await fetchGame(getGameIdFromUrl());
     if (game === undefined) {
         gamePage.hidden = true;
         if (gameNotFound !== null) {
@@ -218,6 +234,13 @@ document.addEventListener("click", (event) => {
 });
 // ===== Запуск: загрузить каталог и нарисовать страницу =====
 const pageMain = document.querySelector("main");
+function showLoadError(error, onRetry) {
+    const message = error instanceof Error ? error.message : "Неизвестная ошибка";
+    console.error("Каталог не загрузился:", error);
+    catalogGrid?.replaceChildren();
+    setText("#catalog-status", "");
+    pageMain?.prepend(createLoadError(message, onRetry));
+}
 async function start() {
     catalogGrid?.replaceChildren(...createSkeletonCards(8));
     setText("#catalog-status", "Загружаем каталог…");
@@ -225,22 +248,18 @@ async function start() {
         filtersForm.inert = true;
     }
     try {
-        games = await loadGames();
+        games = await fetchGames(ALL_GAMES);
+        await fillGenres();
+        await renderCatalog();
+        await renderGameSection();
     }
     catch (error) {
-        const message = error instanceof Error ? error.message : "Неизвестная ошибка";
-        console.error("Каталог не загрузился:", error);
-        catalogGrid?.replaceChildren();
-        setText("#catalog-status", "");
-        pageMain?.prepend(createLoadError(message, start));
+        showLoadError(error, start);
         return;
     }
     if (filtersForm !== null) {
         filtersForm.inert = false;
     }
-    fillGenres();
-    renderCatalog();
-    renderGameSection();
     renderDealOfDay();
     renderCart();
     renderWishlist();
