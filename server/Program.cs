@@ -21,6 +21,17 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<PixelPortDb>();
+
+    // База отстаёт от кода — говорим, что делать, вместо «relation "games" does not exist»
+    List<string> pending = db.Database.GetPendingMigrations().ToList();
+    if (pending.Count > 0)
+    {
+        app.Logger.LogCritical(
+            "База не обновлена: не применены миграции {Pending}. Выполни в папке server: dotnet ef database update",
+            string.Join(", ", pending));
+        return;
+    }
+
     string catalogPath = Path.Combine(app.Environment.WebRootPath, "data", "catalog.json");
     int added = CatalogSeeder.SeedIfEmpty(db, catalogPath);
     app.Logger.LogInformation("Начальные данные: добавлено игр {Added}, всего в базе {Total}", added, db.Games.Count());
