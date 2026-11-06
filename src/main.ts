@@ -1,5 +1,6 @@
-import { games } from "./data.js";
-import type { Genre } from "./models.js";
+import type { Game, Genre } from "./models.js";
+import { loadGames } from "./api.js";
+import { createLoadError, createSkeletonCards } from "./loading.js";
 import { getGenres, selectGames, type CatalogFilters, type SortOrder } from "./filters.js";
 import { createGameCard } from "./render.js";
 import { findGameFromUrl, renderGamePage } from "./game-page.js";
@@ -10,7 +11,8 @@ import { setText } from "./dom.js";
 import { pickGameOfDay } from "./sale.js";
 import { startSaleTimer } from "./sale-banner.js";
 
-// ===== Состояние: корзина и желаемое =====
+// ===== Состояние: каталог, корзина и желаемое =====
+let games: Game[] = [];
 const cart = loadIds("cart");
 const wishlist = loadIds("wishlist");
 
@@ -97,7 +99,10 @@ for (const button of document.querySelectorAll<HTMLButtonElement>(".reset-filter
 const gamePage = document.querySelector<HTMLElement>("#game-page");
 const gameNotFound = document.querySelector<HTMLElement>("#game-not-found");
 
-if (gamePage !== null) {
+function renderGameSection(): void {
+  if (gamePage === null) {
+    return;
+  }
   const game = findGameFromUrl(games);
   if (game === undefined) {
     gamePage.hidden = true;
@@ -248,9 +253,37 @@ document.addEventListener("click", (event) => {
   }
 });
 
-fillGenres();
-renderCatalog();
-renderDealOfDay();
-renderCart();
-renderWishlist();
+// ===== Запуск: загрузить каталог и нарисовать страницу =====
+const pageMain = document.querySelector("main");
+
+async function start(): Promise<void> {
+  catalogGrid?.replaceChildren(...createSkeletonCards(8));
+  setText("#catalog-status", "Загружаем каталог…");
+  if (filtersForm !== null) {
+    filtersForm.inert = true;
+  }
+
+  try {
+    games = await loadGames();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Неизвестная ошибка";
+    console.error("Каталог не загрузился:", error);
+    catalogGrid?.replaceChildren();
+    setText("#catalog-status", "");
+    pageMain?.prepend(createLoadError(message, start));
+    return;
+  }
+
+  if (filtersForm !== null) {
+    filtersForm.inert = false;
+  }
+  fillGenres();
+  renderCatalog();
+  renderGameSection();
+  renderDealOfDay();
+  renderCart();
+  renderWishlist();
+}
+
 updateCartCount();
+start();

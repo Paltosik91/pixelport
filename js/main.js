@@ -1,4 +1,5 @@
-import { games } from "./data.js";
+import { loadGames } from "./api.js";
+import { createLoadError, createSkeletonCards } from "./loading.js";
 import { getGenres, selectGames } from "./filters.js";
 import { createGameCard } from "./render.js";
 import { findGameFromUrl, renderGamePage } from "./game-page.js";
@@ -8,7 +9,8 @@ import { formatPrice } from "./price.js";
 import { setText } from "./dom.js";
 import { pickGameOfDay } from "./sale.js";
 import { startSaleTimer } from "./sale-banner.js";
-// ===== Состояние: корзина и желаемое =====
+// ===== Состояние: каталог, корзина и желаемое =====
+let games = [];
 const cart = loadIds("cart");
 const wishlist = loadIds("wishlist");
 const cartCount = document.querySelector("#cart-count");
@@ -79,7 +81,10 @@ for (const button of document.querySelectorAll(".reset-filters")) {
 // ===== Страница игры =====
 const gamePage = document.querySelector("#game-page");
 const gameNotFound = document.querySelector("#game-not-found");
-if (gamePage !== null) {
+function renderGameSection() {
+    if (gamePage === null) {
+        return;
+    }
     const game = findGameFromUrl(games);
     if (game === undefined) {
         gamePage.hidden = true;
@@ -211,10 +216,35 @@ document.addEventListener("click", (event) => {
         renderCart();
     }
 });
-fillGenres();
-renderCatalog();
-renderDealOfDay();
-renderCart();
-renderWishlist();
+// ===== Запуск: загрузить каталог и нарисовать страницу =====
+const pageMain = document.querySelector("main");
+async function start() {
+    catalogGrid?.replaceChildren(...createSkeletonCards(8));
+    setText("#catalog-status", "Загружаем каталог…");
+    if (filtersForm !== null) {
+        filtersForm.inert = true;
+    }
+    try {
+        games = await loadGames();
+    }
+    catch (error) {
+        const message = error instanceof Error ? error.message : "Неизвестная ошибка";
+        console.error("Каталог не загрузился:", error);
+        catalogGrid?.replaceChildren();
+        setText("#catalog-status", "");
+        pageMain?.prepend(createLoadError(message, start));
+        return;
+    }
+    if (filtersForm !== null) {
+        filtersForm.inert = false;
+    }
+    fillGenres();
+    renderCatalog();
+    renderGameSection();
+    renderDealOfDay();
+    renderCart();
+    renderWishlist();
+}
 updateCartCount();
+start();
 //# sourceMappingURL=main.js.map
