@@ -57,6 +57,39 @@ Content-Type: application/json
   "description": "коротко"
 }
 
+### Скидка 75% на Neon Circuit → 200
+PUT {{host}}/api/games/3/discount
+Content-Type: application/json
+
+{ "discountPercent": 75 }
+
+### Скидка 95% → 400
+PUT {{host}}/api/games/3/discount
+Content-Type: application/json
+
+{ "discountPercent": 95 }
+
+### Изменить игру целиком → 200 (id новой игры поставь свой)
+PUT {{host}}/api/games/13
+Content-Type: application/json
+
+{
+  "title": "Starlight Courier: Deluxe",
+  "slug": "starlight-courier",
+  "genre": "Приключения",
+  "developer": "Comet Post",
+  "releaseYear": 2026,
+  "price": 1299,
+  "discountPercent": 0,
+  "description": "Развозите письма между планетами, теперь с грузовым отсеком."
+}
+
+### Удалить игру с отзывами → 409
+DELETE {{host}}/api/games/3
+
+### Удалить игру без отзывов → 204, повторно → 404
+DELETE {{host}}/api/games/13
+
 ### Игроки для переключателя «Играю как…»
 GET {{host}}/api/players
 

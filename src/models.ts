@@ -52,7 +52,7 @@ export interface NewReview {
   text: string;
 }
 
-export interface NewGame {
+export interface GameInput {
   title: string;
   slug: string;
   genre: string;

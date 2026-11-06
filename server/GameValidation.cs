@@ -8,9 +8,13 @@ public static partial class GameValidation
     [GeneratedRegex("^[a-z0-9]+(-[a-z0-9]+)*$")]
     private static partial Regex SlugPattern();
 
+    public const string DiscountError = "Скидка — от 0 до 90%";
+
+    public static bool IsValidDiscount(int percent) => percent is >= 0 and <= 90;
+
     // Проверки, которые не требуют базы. Ключи — имена полей из JSON:
     // по ним фронтенд найдёт, у какого поля показать ошибку
-    public static Dictionary<string, string[]> Validate(NewGame input)
+    public static Dictionary<string, string[]> Validate(GameInput input)
     {
         var errors = new Dictionary<string, string[]>();
 
@@ -46,9 +50,9 @@ public static partial class GameValidation
             errors["price"] = ["Цена — от 0 до 100 000 ₽"];
         }
 
-        if (input.DiscountPercent is < 0 or > 90)
+        if (!IsValidDiscount(input.DiscountPercent))
         {
-            errors["discountPercent"] = ["Скидка — от 0 до 90%"];
+            errors["discountPercent"] = [DiscountError];
         }
 
         string description = input.Description?.Trim() ?? "";

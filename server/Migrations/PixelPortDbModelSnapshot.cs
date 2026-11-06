@@ -260,7 +260,7 @@ namespace PixelPort.Api.Migrations
                     b.HasOne("PixelPort.Api.Data.Game", "Game")
                         .WithMany("Reviews")
                         .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_reviews_games_game_id");
 

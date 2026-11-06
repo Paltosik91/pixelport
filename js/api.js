@@ -76,12 +76,15 @@ export async function fetchPlayers() {
 export async function fetchReviews(gameId) {
     return getJson(`${API_BASE}/games/${gameId}/reviews`);
 }
-async function postJson(url, body) {
+async function sendJson(method, url, body) {
     const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        method,
+        headers: body === undefined ? {} : { "Content-Type": "application/json" },
+        body: body === undefined ? undefined : JSON.stringify(body),
     });
+    if (response.status === 204) {
+        return { ok: true, data: undefined }; // 204 No Content: успех без тела
+    }
     if (response.ok) {
         return { ok: true, data: (await response.json()) };
     }
@@ -92,9 +95,18 @@ async function postJson(url, body) {
     throw new Error(`Сервер ответил ошибкой ${response.status}`);
 }
 export function postReview(gameId, input) {
-    return postJson(`${API_BASE}/games/${gameId}/reviews`, input);
+    return sendJson("POST", `${API_BASE}/games/${gameId}/reviews`, input);
 }
 export function postGame(input) {
-    return postJson(`${API_BASE}/games`, input);
+    return sendJson("POST", `${API_BASE}/games`, input);
+}
+export function putGame(id, input) {
+    return sendJson("PUT", `${API_BASE}/games/${id}`, input);
+}
+export function putDiscount(id, discountPercent) {
+    return sendJson("PUT", `${API_BASE}/games/${id}/discount`, { discountPercent });
+}
+export function deleteGame(id) {
+    return sendJson("DELETE", `${API_BASE}/games/${id}`);
 }
 //# sourceMappingURL=api.js.map

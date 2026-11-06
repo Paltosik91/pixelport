@@ -1,4 +1,4 @@
-import type { Game, GameDetails, Genre, NewGame, NewReview, Player, Review } from "./models.js";
+import type { Game, GameDetails, Genre, GameInput, NewReview, Player, Review } from "./models.js";
 import { getGenres, selectGames, type CatalogFilters } from "./filters.js";
 import { calculateFinalPrice } from "./price.js";
 
@@ -95,18 +95,21 @@ interface ProblemDetails {
   errors?: Record<string, string[]>;
 }
 
-// Результат отправки: или успех с данными, или ошибки, которые можно показать у формы
-export type PostResult<T> =
+// Результат запроса, который что-то меняет: успех с данными или ошибки для формы
+export type ApiResult<T> =
   | { ok: true; data: T }
   | { ok: false; message: string; errors: Record<string, string[]> };
 
-async function postJson<T>(url: string, body: unknown): Promise<PostResult<T>> {
+async function sendJson<T>(method: string, url: string, body?: unknown): Promise<ApiResult<T>> {
   const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    method,
+    headers: body === undefined ? {} : { "Content-Type": "application/json" },
+    body: body === undefined ? undefined : JSON.stringify(body),
   });
 
+  if (response.status === 204) {
+    return { ok: true, data: undefined as T }; // 204 No Content: успех без тела
+  }
   if (response.ok) {
     return { ok: true, data: (await response.json()) as T };
   }
@@ -117,10 +120,22 @@ async function postJson<T>(url: string, body: unknown): Promise<PostResult<T>> {
   throw new Error(`Сервер ответил ошибкой ${response.status}`);
 }
 
-export function postReview(gameId: number, input: NewReview): Promise<PostResult<Review>> {
-  return postJson<Review>(`${API_BASE}/games/${gameId}/reviews`, input);
+export function postReview(gameId: number, input: NewReview): Promise<ApiResult<Review>> {
+  return sendJson<Review>("POST", `${API_BASE}/games/${gameId}/reviews`, input);
 }
 
-export function postGame(input: NewGame): Promise<PostResult<GameDetails>> {
-  return postJson<GameDetails>(`${API_BASE}/games`, input);
+export function postGame(input: GameInput): Promise<ApiResult<GameDetails>> {
+  return sendJson<GameDetails>("POST", `${API_BASE}/games`, input);
+}
+
+export function putGame(id: number, input: GameInput): Promise<ApiResult<GameDetails>> {
+  return sendJson<GameDetails>("PUT", `${API_BASE}/games/${id}`, input);
+}
+
+export function putDiscount(id: number, discountPercent: number): Promise<ApiResult<GameDetails>> {
+  return sendJson<GameDetails>("PUT", `${API_BASE}/games/${id}/discount`, { discountPercent });
+}
+
+export function deleteGame(id: number): Promise<ApiResult<void>> {
+  return sendJson<void>("DELETE", `${API_BASE}/games/${id}`);
 }

@@ -31,9 +31,27 @@
       Админка работает, только когда магазин запущен со своим сервером.
     </p>
 
+    <section class="admin-catalog" id="admin-catalog">
+      <h2>Каталог</h2>
+      <p class="form-message" id="admin-catalog-message" aria-live="polite"></p>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Игра</th>
+              <th>Цена</th>
+              <th>Скидка, %</th>
+              <th>Действия</th>
+            </tr>
+          </thead>
+          <tbody id="admin-games"></tbody>
+        </table>
+      </div>
+    </section>
+
     <form class="admin-form" id="new-game-form">
       <fieldset id="new-game-fields">
-        <legend>Новая игра</legend>
+        <legend id="game-form-title">Новая игра</legend>
 
         <div class="form-field">
           <label for="new-title">Название</label>
@@ -89,10 +107,24 @@
           <p class="field-error" id="error-description"></p>
         </div>
 
-        <button type="submit">Сохранить игру</button>
+        <div class="form-buttons">
+          <button type="submit">Сохранить игру</button>
+          <button type="button" class="button-secondary" id="cancel-edit" hidden>Отменить изменение</button>
+        </div>
       </fieldset>
       <p class="form-message" id="new-game-message" aria-live="polite"></p>
     </form>
+
+    <dialog class="confirm-dialog" id="delete-dialog">
+      <form method="dialog">
+        <h2>Удалить игру?</h2>
+        <p id="delete-question"></p>
+        <div class="form-buttons">
+          <button value="cancel" class="button-secondary" autofocus>Отмена</button>
+          <button value="confirm" class="danger-button">Удалить</button>
+        </div>
+      </form>
+    </dialog>
   </main>
 
   <footer>

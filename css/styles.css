@@ -848,13 +848,60 @@ nav ul {
   box-shadow: 0 0 0 2px rgba(255, 138, 138, 0.25);
 }
 
-.admin-form button {
-  justify-self: start;
-  margin-top: 8px;
-}
 
 fieldset:disabled {
   opacity: 0.6;
+}
+
+.admin-catalog {
+  margin-bottom: 32px;
+}
+
+.discount-input {
+  width: 5em;
+  margin-right: 8px;
+}
+
+.small-button {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.admin-catalog td:last-child {
+  white-space: nowrap;
+}
+
+.admin-catalog .small-button + .small-button {
+  margin-left: 8px;
+}
+
+.form-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.danger-button {
+  background-color: #ff8a8a;
+  color: #2a0d0d;
+}
+
+.confirm-dialog {
+  max-width: 440px;
+  padding: 24px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.confirm-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.confirm-dialog h2 {
+  margin-top: 0;
 }
 
 /* ===== 17. Узкие экраны ===== */

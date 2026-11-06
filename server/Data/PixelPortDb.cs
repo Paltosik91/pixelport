@@ -47,6 +47,11 @@ public class PixelPortDb(DbContextOptions<PixelPortDb> options) : DbContext(opti
             review.HasIndex(r => new { r.GameId, r.PlayerId }).IsUnique();
             review.Property(r => r.Text).HasMaxLength(1000);
             review.Property(r => r.CreatedAt).HasDefaultValueSql("now()");
+
+            // Игру с отзывами удалить нельзя: отзывы — история, а не мусор
+            review.HasOne(r => r.Game)
+                .WithMany(game => game.Reviews)
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 }
