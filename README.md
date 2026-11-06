@@ -7,6 +7,15 @@
 
 ## Что уже есть
 
+**v0.3 — магазин с сервером** (ASP.NET Core, PostgreSQL):
+
+- API на ASP.NET Core, каталог в PostgreSQL через EF Core и миграции
+- Отзывы игроков и рейтинг, переключатель «Играю как…»
+- Админка: новая игра, правка, скидки, удаление
+- Заказы в транзакции, библиотека игрока
+- «Вам может понравиться» — похожие игры по общим тегам
+- Статистика продаж: выручка по жанрам, топ-5 игр
+
 **v0.2 — живой магазин** (TypeScript, без сервера):
 
 - Каталог из `data/catalog.json`: загрузка со «скелетами», ошибка и «Повторить»
@@ -24,24 +33,22 @@ CSS-переменных, сетка каталога на Grid, адаптив�
 затем запустить `index.html` через Live Server. Двойной щелчок по файлу
 не подойдёт: модули и `fetch` работают только через веб-сервер.
 
-**Сервер на ASP.NET Core** (нужны .NET SDK 10 и PostgreSQL 18).
-Каталог хранится в PostgreSQL, таблицы создаются миграциями EF Core.
-Строка подключения — в `server/appsettings.json` (без пароля),
-пароль задаётся в терминале:
+**С сервером** (нужны .NET SDK 10 и PostgreSQL). В `server/appsettings.json` —
+имя своей базы, пароль — в переменной окружения:
 
 ```bash
-export PGPASSWORD='пароль'
+npm install
+npm run build
 dotnet tool restore
 cd server
+export PGPASSWORD='пароль'
 dotnet ef database update
 dotnet run
 ```
 
-При первом запуске пустая база заполняется играми из `data/catalog.json`.
-Сайт откроется на http://localhost:5080 и будет брать данные из API
-(`/api/games`, `/api/games/{id}`, `/api/genres`). На Live Server и GitHub Pages
-витрина работает без сервера, на `data/catalog.json`. Примеры запросов —
-в `server/pixelport.http`.
+Сайт откроется на http://localhost:5080. При первом запуске сервер сам
+заполнит пустую базу: игры, игроки, отзывы и история продаж.
+Примеры запросов — в `server/pixelport.http`.
 
 ## Автор
 

@@ -1,6 +1,7 @@
 import { USE_API, fetchGame, fetchGames, fetchGenres, postOrder } from "./api.js";
 import { getCurrentPlayer, setupPlayerSwitch } from "./player.js";
 import { setupLibrary, showLibraryOffline } from "./library.js";
+import { setupStats, showStatsOffline } from "./stats.js";
 import { setupReviews } from "./reviews.js";
 import { setupSimilar } from "./similar.js";
 import { setupAdminForm, showAdminOffline } from "./admin.js";
@@ -318,10 +319,12 @@ async function start() {
             await setupPlayerSwitch();
             await setupAdminForm();
             await setupLibrary();
+            await setupStats();
         }
         else {
             showAdminOffline();
             showLibraryOffline();
+            showStatsOffline();
         }
         games = await fetchGames(ALL_GAMES);
         await fillGenres();

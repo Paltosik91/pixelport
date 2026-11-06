@@ -27,6 +27,9 @@ GET {{host}}/api/games/neon
 ### Жанры с количеством игр
 GET {{host}}/api/genres
 
+### Статистика продаж → 200: итоги, жанры, топ-5
+GET {{host}}/api/stats
+
 ### Похожие на Hollow Bell → 200, три игры, Polar Signal первой
 GET {{host}}/api/games/9/similar
 

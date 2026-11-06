@@ -100,3 +100,27 @@ export interface SimilarGame {
   game: Game;
   commonTags: string[];
 }
+
+// Статистика продаж для дашборда
+export interface GenreSales {
+  genre: string;
+  sold: number;
+  revenue: number;
+}
+
+export interface GameSales {
+  gameId: number;
+  title: string;
+  sold: number;
+  revenue: number;
+}
+
+export interface SalesStats {
+  revenue: number;
+  ordersCount: number;
+  gamesSold: number;
+  averageOrder: number;
+  promoDiscount: number;
+  byGenre: GenreSales[];
+  topGames: GameSales[];
+}

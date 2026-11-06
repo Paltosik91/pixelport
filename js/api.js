@@ -79,6 +79,9 @@ export async function fetchReviews(gameId) {
 export async function fetchSimilar(gameId) {
     return getJson(`${API_BASE}/games/${gameId}/similar`);
 }
+export async function fetchStats() {
+    return getJson(`${API_BASE}/stats`);
+}
 export async function fetchLibrary(playerId) {
     return getJson(`${API_BASE}/players/${playerId}/library`);
 }

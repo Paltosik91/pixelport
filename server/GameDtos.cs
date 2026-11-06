@@ -58,6 +58,20 @@ public record DiscountInput(int DiscountPercent);
 // Что присылает клиент, когда пишет отзыв
 public record NewReview(int PlayerId, bool IsRecommended, string? Text);
 
+// Статистика продаж для дашборда
+public record GenreSales(string Genre, int Sold, int Revenue);
+
+public record GameSales(int GameId, string Title, int Sold, int Revenue);
+
+public record SalesStats(
+    int Revenue,
+    int OrdersCount,
+    int GamesSold,
+    int AverageOrder,
+    int PromoDiscount,
+    List<GenreSales> ByGenre,
+    List<GameSales> TopGames);
+
 // Похожая игра: карточка и теги, общие с исходной игрой
 public record SimilarGame(GameSummary Game, List<string> CommonTags);
 

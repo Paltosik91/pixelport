@@ -6,7 +6,7 @@ namespace PixelPort.Api;
 public static class OrderEndpoints
 {
     // Промокоды живут на сервере: список в браузере — только подсказка покупателю
-    private static readonly Dictionary<string, int> PromoCodes = new()
+    internal static readonly Dictionary<string, int> PromoCodes = new()
     {
         ["PIXEL10"] = 10,
         ["WINTER25"] = 25,

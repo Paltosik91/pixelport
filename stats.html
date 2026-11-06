@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Статистика продаж PixelPort: выручка, жанры и самые продаваемые игры.">
+  <title>Статистика продаж — PixelPort</title>
+  <link rel="icon" href="img/logo-mark.svg">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header>
+    <a href="index.html">
+      <img src="img/logo.svg" alt="PixelPort — на главную" width="160" height="39">
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Магазин</a></li>
+        <li><a href="library.html">Библиотека</a></li>
+        <li><a href="cart.html">Корзина (<span id="cart-count">0</span>)</a></li>
+        <li><a href="admin.html" aria-current="page">Админка</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="stats-page">
+    <p><a href="admin.html">← К управлению каталогом</a></p>
+    <h1>Статистика продаж</h1>
+
+    <p class="stats-offline" id="stats-offline" hidden>
+      Статистику считает сервер магазина: страница работает, когда магазин запущен со своим сервером.
+    </p>
+
+    <div id="stats-content" hidden>
+      <dl class="stats-cards">
+        <div class="stat-card">
+          <dt>Выручка</dt>
+          <dd id="stat-revenue"></dd>
+        </div>
+        <div class="stat-card">
+          <dt>Заказов</dt>
+          <dd id="stat-orders"></dd>
+        </div>
+        <div class="stat-card">
+          <dt>Продано игр</dt>
+          <dd id="stat-sold"></dd>
+        </div>
+        <div class="stat-card">
+          <dt>Средний чек</dt>
+          <dd id="stat-average"></dd>
+        </div>
+      </dl>
+
+      <section>
+        <h2>Выручка по жанрам</h2>
+        <div class="stats-chart" id="genre-chart"></div>
+        <p class="stats-note" id="genre-note"></p>
+      </section>
+
+      <section>
+        <h2>Топ-5 игр</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Игра</th>
+                <th>Продано</th>
+                <th>Выручка</th>
+              </tr>
+            </thead>
+            <tbody id="top-games"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 PixelPort. Учебный проект: игры, студии и цены вымышлены.</p>
+    <p>Страницу сделал: Иван Иванов, группа ИС-31</p>
+  </footer>
+</body>
+</html>

@@ -28,6 +28,10 @@ using (var scope = app.Services.CreateScope())
     string reviewsPath = Path.Combine(app.Environment.ContentRootPath, "Data", "reviews.json");
     int reviews = CatalogSeeder.SeedReviewsIfEmpty(db, reviewsPath);
     app.Logger.LogInformation("Начальные данные: добавлено отзывов {Added}", reviews);
+
+    string ordersPath = Path.Combine(app.Environment.ContentRootPath, "Data", "orders.json");
+    int orders = CatalogSeeder.SeedOrdersIfEmpty(db, ordersPath);
+    app.Logger.LogInformation("Начальные данные: добавлено заказов {Added}", orders);
 }
 
 // Сервер раздаёт папку сайта, но не собственные файлы
@@ -48,5 +52,6 @@ app.MapGameEndpoints();
 app.MapReviewEndpoints();
 app.MapAdminEndpoints();
 app.MapOrderEndpoints();
+app.MapStatsEndpoints();
 
 app.Run();
