@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Корзина PixelPort: выбранные игры и итоговая сумма.">
   <title>Корзина — PixelPort</title>
   <link rel="icon" href="img/logo-mark.svg">
   <link rel="stylesheet" href="css/styles.css">
@@ -10,7 +11,7 @@
 <body>
   <header>
     <a href="index.html">
-      <img src="img/logo.svg" alt="PixelPort — на главную" width="160">
+      <img src="img/logo.svg" alt="PixelPort — на главную" width="160" height="39">
     </a>
     <nav>
       <ul>
@@ -25,39 +26,41 @@
   <main>
     <h1>Корзина</h1>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Игра</th>
-          <th>Цена</th>
-          <th>Действие</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <img src="img/neon-circuit.png" alt="" width="60">
-            <a href="game.html">Neon Circuit</a>
-          </td>
-          <td>599 ₽</td>
-          <td><button type="button">Удалить</button></td>
-        </tr>
-        <tr>
-          <td>
-            <img src="img/mossbound.png" alt="" width="60">
-            <a href="game.html">Mossbound</a>
-          </td>
-          <td>629 ₽</td>
-          <td><button type="button">Удалить</button></td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th>Итого</th>
-          <td colspan="2"><strong>1228 ₽</strong></td>
-        </tr>
-      </tfoot>
-    </table>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Игра</th>
+            <th>Цена</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img src="img/neon-circuit.png" alt="" width="60" height="80">
+              <a href="game.html">Neon Circuit</a>
+            </td>
+            <td>599 ₽</td>
+            <td><button type="button">Удалить</button></td>
+          </tr>
+          <tr>
+            <td>
+              <img src="img/mossbound.png" alt="" width="60" height="80">
+              <a href="game.html">Mossbound</a>
+            </td>
+            <td>629 ₽</td>
+            <td><button type="button">Удалить</button></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>Итого</th>
+            <td colspan="2"><strong>1228 ₽</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
     <form>
       <label for="promo">Промокод</label>
