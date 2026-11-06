@@ -1,6 +1,11 @@
 import type { Game } from "./models.js";
 import { finalPrice, formatPrice } from "./price.js";
 
+export interface CardState {
+  inCart: boolean;
+  wished: boolean;
+}
+
 function createPrice(game: Game): HTMLParagraphElement {
   const price = document.createElement("p");
   price.className = "price";
@@ -18,7 +23,7 @@ function createPrice(game: Game): HTMLParagraphElement {
   return price;
 }
 
-export function createGameCard(game: Game): HTMLElement {
+export function createGameCard(game: Game, state: CardState): HTMLElement {
   const card = document.createElement("article");
   card.className = "card";
   if (game.discountPercent > 0) {
@@ -28,9 +33,10 @@ export function createGameCard(game: Game): HTMLElement {
   const wishButton = document.createElement("button");
   wishButton.type = "button";
   wishButton.className = "wish-button";
-  wishButton.setAttribute("aria-pressed", "false");
+  wishButton.dataset.gameId = String(game.id);
+  wishButton.setAttribute("aria-pressed", String(state.wished));
   wishButton.setAttribute("aria-label", `В желаемое: ${game.title}`);
-  wishButton.textContent = "♡";
+  wishButton.textContent = state.wished ? "♥" : "♡";
 
   const link = document.createElement("a");
   link.href = "game.html";
@@ -52,8 +58,9 @@ export function createGameCard(game: Game): HTMLElement {
   const buyButton = document.createElement("button");
   buyButton.type = "button";
   buyButton.className = "buy-button";
-  buyButton.dataset.title = game.title;
-  buyButton.textContent = "В корзину";
+  buyButton.dataset.gameId = String(game.id);
+  buyButton.textContent = state.inCart ? "В корзине ✓" : "В корзину";
+  buyButton.disabled = state.inCart;
 
   card.append(wishButton, link, meta, createPrice(game), buyButton);
   return card;

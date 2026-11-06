@@ -38,7 +38,53 @@
 
     <section id="catalog">
       <h2 id="catalog-title">Все игры</h2>
+
+      <form class="filters" id="filters" role="search">
+        <div class="filter-field filter-search">
+          <label for="search">Поиск</label>
+          <input type="search" id="search" name="search" placeholder="Название игры">
+        </div>
+        <div class="filter-field">
+          <label for="genre">Жанр</label>
+          <select id="genre" name="genre">
+            <option value="">Все жанры</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="max-price">Цена</label>
+          <select id="max-price" name="max-price">
+            <option value="">Любая</option>
+            <option value="500">до 500 ₽</option>
+            <option value="700">до 700 ₽</option>
+            <option value="1000">до 1000 ₽</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="sort">Сортировка</label>
+          <select id="sort" name="sort">
+            <option value="rating">По рейтингу</option>
+            <option value="price-asc">Дешевле</option>
+            <option value="price-desc">Дороже</option>
+            <option value="discount">Больше скидка</option>
+            <option value="new">Новее</option>
+          </select>
+        </div>
+        <label class="filter-check">
+          <input type="checkbox" id="only-sale" name="only-sale">
+          Только со скидкой
+        </label>
+        <button type="button" class="button-secondary reset-filters">Сбросить</button>
+      </form>
+
+      <p class="catalog-status" id="catalog-status" aria-live="polite"></p>
       <div class="catalog-grid" id="catalog-grid"></div>
+
+      <div class="empty-state" id="empty-state" hidden>
+        <img src="img/states/empty-search.png" alt="" width="240" height="240">
+        <h3>Ничего не нашлось</h3>
+        <p>Попробуй изменить запрос или сбросить фильтры.</p>
+        <button type="button" class="reset-filters">Сбросить фильтры</button>
+      </div>
     </section>
   </main>
 

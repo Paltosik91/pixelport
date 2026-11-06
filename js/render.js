@@ -12,7 +12,7 @@ function createPrice(game) {
     price.append(currentPrice);
     return price;
 }
-export function createGameCard(game) {
+export function createGameCard(game, state) {
     const card = document.createElement("article");
     card.className = "card";
     if (game.discountPercent > 0) {
@@ -21,9 +21,10 @@ export function createGameCard(game) {
     const wishButton = document.createElement("button");
     wishButton.type = "button";
     wishButton.className = "wish-button";
-    wishButton.setAttribute("aria-pressed", "false");
+    wishButton.dataset.gameId = String(game.id);
+    wishButton.setAttribute("aria-pressed", String(state.wished));
     wishButton.setAttribute("aria-label", `В желаемое: ${game.title}`);
-    wishButton.textContent = "♡";
+    wishButton.textContent = state.wished ? "♥" : "♡";
     const link = document.createElement("a");
     link.href = "game.html";
     const cover = document.createElement("img");
@@ -40,8 +41,9 @@ export function createGameCard(game) {
     const buyButton = document.createElement("button");
     buyButton.type = "button";
     buyButton.className = "buy-button";
-    buyButton.dataset.title = game.title;
-    buyButton.textContent = "В корзину";
+    buyButton.dataset.gameId = String(game.id);
+    buyButton.textContent = state.inCart ? "В корзине ✓" : "В корзину";
+    buyButton.disabled = state.inCart;
     card.append(wishButton, link, meta, createPrice(game), buyButton);
     return card;
 }
