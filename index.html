@@ -3,92 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neon Circuit — PixelPort</title>
+  <title>PixelPort — магазин инди-игр</title>
   <link rel="icon" href="img/logo-mark.svg">
 </head>
 <body>
   <header>
-    <p><strong>PixelPort</strong> — магазин инди-игр</p>
+    <a href="index.html">
+      <img src="img/logo.svg" alt="PixelPort — на главную" width="160">
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html" aria-current="page">Магазин</a></li>
+        <li><a href="library.html">Библиотека</a></li>
+        <li><a href="cart.html">Корзина (2)</a></li>
+        <li><a href="admin.html">Админка</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
-    <h1>Neon Circuit</h1>
-    <p><em>Побеждайте на ночных трассах футуристического города.</em></p>
+    <section>
+      <h1>Зимняя распродажа уже близко</h1>
+      <p>Скидки до 60% на инди-хиты. Добавь игры в желаемое, чтобы не пропустить старт.</p>
+      <img src="img/hero.png"
+           alt="Путник в красном плаще смотрит на долину с замком и огромной планетой в небе"
+           width="600">
+      <p><a href="#catalog">Смотреть игры</a></p>
+    </section>
 
-    <img src="img/neon-circuit.png"
-         alt="Неоновый спорткар мчится по ночной трассе среди небоскрёбов"
-         width="300">
+    <section id="catalog">
+      <h2>Хиты недели</h2>
 
-    <p><a href="#requirements">Системные требования</a></p>
+      <article>
+        <a href="game.html">
+          <img src="img/neon-circuit.png" alt="Неоновый спорткар на ночной трассе" width="180">
+          <h3>Neon Circuit</h3>
+        </a>
+        <p>Гонки · 2025</p>
+        <p><del>1499 ₽</del> <strong>599 ₽</strong> <mark>−60%</mark></p>
+      </article>
 
-    <h2>Об игре</h2>
-    <p>
-      2089 год. Ночной город превратился в гоночную трассу, а победа в лиге
-      Neon Circuit — единственный способ попасть в верхний город. Собери
-      машину своей мечты, изучи каждый тоннель и обгони тех, кто уже
-      считает себя чемпионом.
-    </p>
-    <p>Разработчик: <strong>Prism Drive</strong>. Год выхода: 2025. Жанр: гонки.</p>
+      <article>
+        <a href="game.html">
+          <img src="img/mossbound.png" alt="Каменные ворота среди покрытых мхом руин" width="180">
+          <h3>Mossbound</h3>
+        </a>
+        <p>Приключения · 2023</p>
+        <p><del>899 ₽</del> <strong>629 ₽</strong> <mark>−30%</mark></p>
+      </article>
 
-    <h2>Особенности</h2>
-    <ul>
-      <li>24 трассы в трёх районах города</li>
-      <li>Сетевые заезды до 8 игроков</li>
-      <li>Тюнинг машины: от двигателя до цвета неоновой подсветки</li>
-      <li>Режим «Призрак»: соревнуйся с собственным лучшим заездом</li>
-    </ul>
 
-    <h2>Как начать</h2>
-    <ol>
-      <li>Выбери стартовую машину в гараже.</li>
-      <li>Пройди обучающий заезд по набережной.</li>
-      <li>Получи пропуск в первую лигу и сразись с соперниками.</li>
-    </ol>
+      <article>
+        <a href="game.html">
+          <img src="img/orbital-echo.png" alt="Исследователь в скафандре на фоне огромной планеты" width="180">
+          <h3>Orbital Echo</h3>
+        </a>
+        <p>Приключения · 2024</p>
+        <p><strong>1299 ₽</strong></p>
+      </article>
 
-    <h2>Цена</h2>
-    <p>
-      <del>1499 ₽</del>
-      <strong>599 ₽</strong>
-      <mark>−60%</mark>
-    </p>
-    <button type="button">Купить</button>
-
-    <h2 id="requirements">Системные требования</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Параметр</th>
-          <th>Минимальные</th>
-          <th>Рекомендуемые</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>ОС</th>
-          <td>Windows 10 64-bit</td>
-          <td>Windows 11 64-bit</td>
-        </tr>
-        <tr>
-          <th>Процессор</th>
-          <td>4 ядра, 3.0 ГГц</td>
-          <td>8 ядер, 3.6 ГГц</td>
-        </tr>
-        <tr>
-          <th>Оперативная память</th>
-          <td>8 ГБ</td>
-          <td>16 ГБ</td>
-        </tr>
-        <tr>
-          <th>Видеокарта</th>
-          <td>4 ГБ видеопамяти</td>
-          <td>8 ГБ видеопамяти</td>
-        </tr>
-        <tr>
-          <th>Место на диске</th>
-          <td colspan="2">35 ГБ</td>
-        </tr>
-      </tbody>
-    </table>
+      <article>
+        <a href="game.html">
+          <img src="img/crimson-keep.png" alt="Крепость на скале и дорога к её воротам" width="180">
+          <h3>Crimson Keep</h3>
+        </a>
+        <p>Стратегии · 2024</p>
+        <p><del>1399 ₽</del> <strong>839 ₽</strong> <mark>−40%</mark></p>
+      </article>
+    </section>
   </main>
 
   <footer>

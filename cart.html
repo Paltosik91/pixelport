@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Корзина — PixelPort</title>
+  <link rel="icon" href="img/logo-mark.svg">
+</head>
+<body>
+  <header>
+    <a href="index.html">
+      <img src="img/logo.svg" alt="PixelPort — на главную" width="160">
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Магазин</a></li>
+        <li><a href="library.html">Библиотека</a></li>
+        <li><a href="cart.html" aria-current="page">Корзина (2)</a></li>
+        <li><a href="admin.html">Админка</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Корзина</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Игра</th>
+          <th>Цена</th>
+          <th>Действие</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <img src="img/neon-circuit.png" alt="" width="60">
+            <a href="game.html">Neon Circuit</a>
+          </td>
+          <td>599 ₽</td>
+          <td><button type="button">Удалить</button></td>
+        </tr>
+        <tr>
+          <td>
+            <img src="img/mossbound.png" alt="" width="60">
+            <a href="game.html">Mossbound</a>
+          </td>
+          <td>629 ₽</td>
+          <td><button type="button">Удалить</button></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Итого</th>
+          <td colspan="2"><strong>1228 ₽</strong></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <form>
+      <label for="promo">Промокод</label>
+      <input id="promo" name="promo" type="text" placeholder="Например, PIXEL10">
+      <button type="submit">Применить</button>
+    </form>
+
+    <p><button type="button">Оформить заказ</button></p>
+  </main>
+
+  <footer>
+    <p>© 2026 PixelPort. Учебный проект: игры, студии и цены вымышлены.</p>
+    <p>Страницу сделал: Иван Иванов, группа ИС-31</p>
+  </footer>
+</body>
+</html>
