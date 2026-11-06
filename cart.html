@@ -27,49 +27,51 @@
   <main>
     <h1>Корзина</h1>
 
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>Игра</th>
-            <th>Цена</th>
-            <th>Действие</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <img src="img/neon-circuit.png" alt="" width="60" height="80">
-              <a href="game.html?id=3">Neon Circuit</a>
-            </td>
-            <td>599 ₽</td>
-            <td><button type="button">Удалить</button></td>
-          </tr>
-          <tr>
-            <td>
-              <img src="img/mossbound.png" alt="" width="60" height="80">
-              <a href="game.html?id=2">Mossbound</a>
-            </td>
-            <td>629 ₽</td>
-            <td><button type="button">Удалить</button></td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th>Итого</th>
-            <td colspan="2"><strong>1228 ₽</strong></td>
-          </tr>
-        </tfoot>
-      </table>
+    <div id="cart-content">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Игра</th>
+              <th>Цена</th>
+              <th>Действие</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items"></tbody>
+          <tfoot>
+            <tr>
+              <th>Сумма</th>
+              <td colspan="2" id="cart-subtotal"></td>
+            </tr>
+            <tr id="cart-discount-row" hidden>
+              <th>Промокод</th>
+              <td colspan="2" id="cart-discount"></td>
+            </tr>
+            <tr>
+              <th>Итого</th>
+              <td colspan="2"><strong id="cart-total"></strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <form class="promo-form" id="promo-form">
+        <label for="promo">Промокод</label>
+        <input id="promo" name="promo" type="text" placeholder="Например, PIXEL10" autocomplete="off">
+        <button type="submit" class="button-secondary">Применить</button>
+      </form>
+      <p class="form-message" id="promo-message" aria-live="polite"></p>
+
+      <p><button type="button" id="checkout">Оформить заказ</button></p>
+      <p class="form-message" id="checkout-message" aria-live="polite"></p>
     </div>
 
-    <form>
-      <label for="promo">Промокод</label>
-      <input id="promo" name="promo" type="text" placeholder="Например, PIXEL10">
-      <button type="submit">Применить</button>
-    </form>
-
-    <p><button type="button">Оформить заказ</button></p>
+    <div class="empty-state" id="cart-empty" hidden>
+      <img src="img/states/empty-cart.png" alt="" width="240" height="240">
+      <h2>Корзина пуста</h2>
+      <p>Загляни в каталог — там скидки до 60%.</p>
+      <a class="button" href="index.html">В каталог</a>
+    </div>
   </main>
 
   <footer>

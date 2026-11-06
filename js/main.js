@@ -2,9 +2,13 @@ import { games } from "./data.js";
 import { getGenres, selectGames } from "./filters.js";
 import { createGameCard } from "./render.js";
 import { findGameFromUrl, renderGamePage } from "./game-page.js";
+import { loadIds, saveIds } from "./storage.js";
+import { calculateTotals, createCartRow, getCartGames, getPromoPercent } from "./cart.js";
+import { formatPrice } from "./price.js";
+import { setText } from "./dom.js";
 // ===== Состояние: корзина и желаемое =====
-const cart = new Set();
-const wishlist = new Set();
+const cart = loadIds("cart");
+const wishlist = loadIds("wishlist");
 const cartCount = document.querySelector("#cart-count");
 function updateCartCount() {
     if (cartCount !== null) {
@@ -86,7 +90,52 @@ if (gamePage !== null) {
         renderGamePage(game, { inCart: cart.has(game.id), wished: wishlist.has(game.id) });
     }
 }
-// ===== Кнопки карточек: один обработчик на всю страницу =====
+// ===== Страница корзины =====
+const cartItems = document.querySelector("#cart-items");
+const cartContent = document.querySelector("#cart-content");
+const cartEmpty = document.querySelector("#cart-empty");
+const discountRow = document.querySelector("#cart-discount-row");
+const promoForm = document.querySelector("#promo-form");
+const promoInput = document.querySelector("#promo");
+const checkoutButton = document.querySelector("#checkout");
+let promoPercent = 0;
+function renderCart() {
+    if (cartItems === null) {
+        return;
+    }
+    const cartGames = getCartGames(games, cart);
+    cartItems.replaceChildren(...cartGames.map(createCartRow));
+    const totals = calculateTotals(cartGames, promoPercent);
+    setText("#cart-subtotal", formatPrice(totals.subtotal));
+    setText("#cart-discount", `−${formatPrice(totals.discount)} (−${promoPercent}%)`);
+    setText("#cart-total", formatPrice(totals.total));
+    if (discountRow !== null) {
+        discountRow.hidden = promoPercent === 0;
+    }
+    if (cartContent !== null) {
+        cartContent.hidden = cartGames.length === 0;
+    }
+    if (cartEmpty !== null) {
+        cartEmpty.hidden = cartGames.length > 0;
+    }
+}
+promoForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const percent = getPromoPercent(promoInput?.value ?? "");
+    if (percent === undefined) {
+        promoPercent = 0;
+        setText("#promo-message", "Такого промокода нет");
+    }
+    else {
+        promoPercent = percent;
+        setText("#promo-message", `Промокод применён: скидка ${percent}%`);
+    }
+    renderCart();
+});
+checkoutButton?.addEventListener("click", () => {
+    setText("#checkout-message", "Оплата появится, когда у магазина будет свой сервер. Скоро!");
+});
+// ===== Кнопки: один обработчик на всю страницу =====
 document.addEventListener("click", (event) => {
     if (!(event.target instanceof Element)) {
         return;
@@ -94,6 +143,7 @@ document.addEventListener("click", (event) => {
     const buyButton = event.target.closest(".buy-button");
     if (buyButton !== null) {
         cart.add(Number(buyButton.dataset.gameId));
+        saveIds("cart", cart);
         updateCartCount();
         buyButton.textContent = "В корзине ✓";
         buyButton.disabled = true;
@@ -108,12 +158,22 @@ document.addEventListener("click", (event) => {
         else {
             wishlist.add(id);
         }
+        saveIds("wishlist", wishlist);
         const isWished = wishlist.has(id);
         wishButton.setAttribute("aria-pressed", String(isWished));
         wishButton.textContent = isWished ? "♥" : "♡";
+        return;
+    }
+    const removeButton = event.target.closest(".remove-button");
+    if (removeButton !== null) {
+        cart.delete(Number(removeButton.dataset.gameId));
+        saveIds("cart", cart);
+        updateCartCount();
+        renderCart();
     }
 });
 fillGenres();
 renderCatalog();
+renderCart();
 updateCartCount();
 //# sourceMappingURL=main.js.map

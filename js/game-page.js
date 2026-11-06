@@ -1,15 +1,10 @@
 import { createPrice } from "./render.js";
 import { createSlider } from "./slider.js";
+import { setText } from "./dom.js";
 export function findGameFromUrl(allGames) {
     const params = new URLSearchParams(window.location.search);
     const id = Number(params.get("id"));
     return allGames.find((game) => game.id === id);
-}
-function setText(selector, text) {
-    const element = document.querySelector(selector);
-    if (element !== null) {
-        element.textContent = text;
-    }
 }
 function createListItems(items) {
     return items.map((text) => {
