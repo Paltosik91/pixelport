@@ -1,0 +1,19 @@
+@host = http://localhost:5080
+
+### Весь каталог
+GET {{host}}/api/games
+
+### Главная страница сайта
+GET {{host}}/
+
+### Такого адреса нет
+GET {{host}}/api/nope
+
+### Файлы сервера наружу не отдаются
+GET {{host}}/server/appsettings.json
+
+### Попробуем изменить каталог
+POST {{host}}/api/games
+Content-Type: application/json
+
+{ "title": "Моя игра" }
