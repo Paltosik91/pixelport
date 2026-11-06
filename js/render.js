@@ -18,6 +18,22 @@ export function createPrice(game) {
     }
     return price;
 }
+// Оценка словами, как в больших магазинах
+export function describeRating(rating) {
+    if (rating === null) {
+        return "Пока нет отзывов";
+    }
+    if (rating >= 80) {
+        return `👍 ${rating}% · очень положительные`;
+    }
+    if (rating >= 60) {
+        return `👍 ${rating}% · в основном положительные`;
+    }
+    if (rating >= 40) {
+        return `${rating}% · смешанные`;
+    }
+    return `👎 ${rating}% · в основном отрицательные`;
+}
 // Новинки — игры этого года выпуска и новее
 const NEW_RELEASE_YEAR = 2025;
 export function isNewRelease(game) {
@@ -49,16 +65,18 @@ export function createGameCard(game, state) {
     title.textContent = game.title;
     link.append(cover, title);
     const meta = document.createElement("p");
-    const rating = game.rating === null ? "нет отзывов" : `👍 ${game.rating}%`;
     const newMark = isNewRelease(game) ? " · 🆕 новинка" : "";
-    meta.textContent = `${game.genre} · ${game.year}${newMark} · ${rating}`;
+    meta.textContent = `${game.genre} · ${game.year}${newMark}`;
+    const rating = document.createElement("p");
+    rating.className = "card-rating";
+    rating.textContent = describeRating(game.rating);
     const buyButton = document.createElement("button");
     buyButton.type = "button";
     buyButton.className = "buy-button";
     buyButton.dataset.gameId = String(game.id);
     buyButton.textContent = state.inCart ? "В корзине ✓" : "В корзину";
     buyButton.disabled = state.inCart;
-    card.append(wishButton, link, meta, createPrice(game), buyButton);
+    card.append(wishButton, link, meta, rating, createPrice(game), buyButton);
     return card;
 }
 //# sourceMappingURL=render.js.map

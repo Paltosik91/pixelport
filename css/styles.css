@@ -160,6 +160,11 @@ footer {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
 }
 
+.card-rating {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
 .card[data-discount]::before {
   content: attr(data-discount);
   position: absolute;
