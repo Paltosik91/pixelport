@@ -156,6 +156,10 @@ export function putDiscount(id: number, discountPercent: number): Promise<ApiRes
   return sendJson<GameDetails>("PUT", `${API_BASE}/games/${id}/discount`, { discountPercent });
 }
 
+export function putEditorsChoice(id: number, isEditorsChoice: boolean): Promise<ApiResult<GameDetails>> {
+  return sendJson<GameDetails>("PUT", `${API_BASE}/games/${id}/editors-choice`, { isEditorsChoice });
+}
+
 export function deleteGame(id: number): Promise<ApiResult<void>> {
   return sendJson<void>("DELETE", `${API_BASE}/games/${id}`);
 }

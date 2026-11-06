@@ -974,6 +974,12 @@ fieldset:disabled {
   font-size: 14px;
 }
 
+.choice-input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent);
+}
+
 .admin-catalog td:last-child {
   white-space: nowrap;
 }

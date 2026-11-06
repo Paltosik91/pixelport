@@ -119,6 +119,9 @@ export function putGame(id, input) {
 export function putDiscount(id, discountPercent) {
     return sendJson("PUT", `${API_BASE}/games/${id}/discount`, { discountPercent });
 }
+export function putEditorsChoice(id, isEditorsChoice) {
+    return sendJson("PUT", `${API_BASE}/games/${id}/editors-choice`, { isEditorsChoice });
+}
 export function deleteGame(id) {
     return sendJson("DELETE", `${API_BASE}/games/${id}`);
 }
