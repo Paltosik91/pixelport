@@ -14,6 +14,9 @@ public class Game
     public required string Description { get; set; }
     public List<string>? Features { get; set; }
 
+    // Выбор редакции: игры, которые магазин советует от себя
+    public bool IsEditorsChoice { get; set; }
+
     public int GenreId { get; set; }
     public Genre Genre { get; set; } = null!;
 

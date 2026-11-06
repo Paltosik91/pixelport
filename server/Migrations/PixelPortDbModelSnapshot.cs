@@ -65,6 +65,10 @@ namespace PixelPort.Api.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("genre_id");
 
+                    b.Property<bool>("IsEditorsChoice")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_editors_choice");
+
                     b.Property<int>("Price")
                         .HasColumnType("integer")
                         .HasColumnName("price");
