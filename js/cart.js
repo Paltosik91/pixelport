@@ -1,4 +1,5 @@
 import { formatPrice } from "./price.js";
+import { useFallbackImage } from "./dom.js";
 const PROMO_CODES = {
     PIXEL10: 10,
     WINTER25: 25,
@@ -22,6 +23,7 @@ export function createCartRow(game) {
     cover.alt = "";
     cover.width = 60;
     cover.height = 80;
+    useFallbackImage(cover);
     const link = document.createElement("a");
     link.href = `game.html?id=${game.id}`;
     link.textContent = game.title;

@@ -1,5 +1,6 @@
 import type { Game } from "./models.js";
 import { formatPrice } from "./price.js";
+import { useFallbackImage } from "./dom.js";
 
 const PROMO_CODES: Record<string, number> = {
   PIXEL10: 10,
@@ -35,6 +36,7 @@ export function createCartRow(game: Game): HTMLTableRowElement {
   cover.alt = "";
   cover.width = 60;
   cover.height = 80;
+  useFallbackImage(cover);
   const link = document.createElement("a");
   link.href = `game.html?id=${game.id}`;
   link.textContent = game.title;

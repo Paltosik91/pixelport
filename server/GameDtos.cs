@@ -41,6 +41,17 @@ public record PlayerInfo(int Id, string Nickname, string AvatarUrl);
 
 public record ReviewInfo(int Id, string Player, string AvatarUrl, bool IsRecommended, string Text, DateTime CreatedAt);
 
+// Что присылает админка, когда добавляет игру
+public record NewGame(
+    string? Title,
+    string? Slug,
+    string? Genre,
+    string? Developer,
+    int ReleaseYear,
+    int Price,
+    int DiscountPercent,
+    string? Description);
+
 // Что присылает клиент, когда пишет отзыв
 public record NewReview(int PlayerId, bool IsRecommended, string? Text);
 

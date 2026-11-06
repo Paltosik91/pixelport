@@ -73,6 +73,51 @@ public static class GameEndpoints
             return Results.Ok(game);
         });
 
+        api.MapPost("/games", async (PixelPortDb db, NewGame input) =>
+        {
+            Dictionary<string, string[]> errors = GameValidation.Validate(input);
+
+            // Проверки, для которых нужна база
+            Genre? genre = await db.Genres.FirstOrDefaultAsync(item => item.Name == input.Genre);
+            if (genre is null && !errors.ContainsKey("genre"))
+            {
+                errors["genre"] = [$"Жанра «{input.Genre}» нет в каталоге"];
+            }
+
+            string slug = input.Slug?.Trim() ?? "";
+            if (!errors.ContainsKey("slug") && await db.Games.AnyAsync(game => game.Slug == slug))
+            {
+                errors["slug"] = [$"Адрес «{slug}» уже занят другой игрой"];
+            }
+
+            if (errors.Count > 0)
+            {
+                return Results.ValidationProblem(errors);
+            }
+
+            string title = input.Title!.Trim();
+            var game = new Game
+            {
+                Slug = slug,
+                Title = title,
+                Genre = genre!,
+                Developer = input.Developer!.Trim(),
+                ReleaseYear = input.ReleaseYear,
+                Price = input.Price,
+                DiscountPercent = input.DiscountPercent,
+                CoverAlt = $"Обложка игры {title}",
+                Description = input.Description!.Trim(),
+            };
+            db.Games.Add(game);
+            await db.SaveChangesAsync();
+
+            GameDetails created = await db.Games
+                .Where(item => item.Id == game.Id)
+                .Select(GameMapping.ToDetails)
+                .FirstAsync();
+            return Results.Created($"/api/games/{game.Id}", created);
+        });
+
         api.MapGet("/genres", async (PixelPortDb db) => await db.Genres
             .OrderBy(genre => genre.Name)
             .Select(genre => new GenreInfo(genre.Name, genre.Games.Count))

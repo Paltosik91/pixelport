@@ -1,7 +1,7 @@
 import type { GameDetails } from "./models.js";
 import { createPrice, type CardState } from "./render.js";
 import { createSlider } from "./slider.js";
-import { setText } from "./dom.js";
+import { setText, useFallbackImage } from "./dom.js";
 
 export function getGameIdFromUrl(): number {
   const params = new URLSearchParams(window.location.search);
@@ -36,6 +36,7 @@ export function renderGamePage(game: GameDetails, state: CardState): void {
 
   const cover = document.querySelector<HTMLImageElement>("#game-cover");
   if (cover !== null) {
+    useFallbackImage(cover);
     cover.src = `img/${game.slug}.png`;
     cover.alt = game.coverAlt;
   }
@@ -45,6 +46,8 @@ export function renderGamePage(game: GameDetails, state: CardState): void {
     { src: `img/screens/${game.slug}-2.png`, alt: `${game.title}: скриншот 2` },
   ]);
   document.querySelector("#game-slider")?.replaceChildren(slider);
+  // Скриншотов нет (новая игра) — слайдер не нужен
+  slider.querySelector("img")?.addEventListener("error", () => slider.remove(), { once: true });
 
   document.querySelector("#game-tags")?.replaceChildren(...createListItems(game.tags));
 

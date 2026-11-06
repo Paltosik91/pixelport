@@ -1,6 +1,6 @@
 import { createPrice } from "./render.js";
 import { createSlider } from "./slider.js";
-import { setText } from "./dom.js";
+import { setText, useFallbackImage } from "./dom.js";
 export function getGameIdFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return Number(params.get("id"));
@@ -29,6 +29,7 @@ export function renderGamePage(game, state) {
     setText("#game-rating", formatRatingLine(game));
     const cover = document.querySelector("#game-cover");
     if (cover !== null) {
+        useFallbackImage(cover);
         cover.src = `img/${game.slug}.png`;
         cover.alt = game.coverAlt;
     }
@@ -37,6 +38,8 @@ export function renderGamePage(game, state) {
         { src: `img/screens/${game.slug}-2.png`, alt: `${game.title}: скриншот 2` },
     ]);
     document.querySelector("#game-slider")?.replaceChildren(slider);
+    // Скриншотов нет (новая игра) — слайдер не нужен
+    slider.querySelector("img")?.addEventListener("error", () => slider.remove(), { once: true });
     document.querySelector("#game-tags")?.replaceChildren(...createListItems(game.tags));
     const featuresSection = document.querySelector("#game-features");
     if (featuresSection !== null) {

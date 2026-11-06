@@ -4,4 +4,10 @@ export function setText(selector, text) {
         element.textContent = text;
     }
 }
+// Нет картинки (например, у новой игры ещё нет обложки) — показать заглушку
+export function useFallbackImage(image, fallback = "img/no-cover.png") {
+    image.addEventListener("error", () => {
+        image.src = fallback;
+    }, { once: true });
+}
 //# sourceMappingURL=dom.js.map

@@ -27,6 +27,36 @@ GET {{host}}/api/games/neon
 ### Жанры с количеством игр
 GET {{host}}/api/genres
 
+### Новая игра → 201
+POST {{host}}/api/games
+Content-Type: application/json
+
+{
+  "title": "Starlight Courier",
+  "slug": "starlight-courier",
+  "genre": "Приключения",
+  "developer": "Comet Post",
+  "releaseYear": 2026,
+  "price": 899,
+  "discountPercent": 10,
+  "description": "Развозите письма между планетами на маленьком почтовом корабле."
+}
+
+### Всё неправильно → 400 с ошибкой у каждого поля
+POST {{host}}/api/games
+Content-Type: application/json
+
+{
+  "title": "X",
+  "slug": "Моя Игра",
+  "genre": "Шутер",
+  "developer": "",
+  "releaseYear": 1900,
+  "price": -5,
+  "discountPercent": 95,
+  "description": "коротко"
+}
+
 ### Игроки для переключателя «Играю как…»
 GET {{host}}/api/players
 

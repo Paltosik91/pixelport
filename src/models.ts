@@ -51,3 +51,14 @@ export interface NewReview {
   isRecommended: boolean;
   text: string;
 }
+
+export interface NewGame {
+  title: string;
+  slug: string;
+  genre: string;
+  developer: string;
+  releaseYear: number;
+  price: number;
+  discountPercent: number;
+  description: string;
+}

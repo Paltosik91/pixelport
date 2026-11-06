@@ -60,7 +60,7 @@ export async function setupReviews(gameId) {
                 text: textArea.value,
             });
             if (result.ok) {
-                list.prepend(createReviewItem(result.review));
+                list.prepend(createReviewItem(result.data));
                 textArea.value = "";
                 setText("#review-message", "Спасибо! Отзыв опубликован.");
                 const game = await fetchGame(gameId);

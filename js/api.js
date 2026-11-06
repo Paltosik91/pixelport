@@ -76,19 +76,25 @@ export async function fetchPlayers() {
 export async function fetchReviews(gameId) {
     return getJson(`${API_BASE}/games/${gameId}/reviews`);
 }
-export async function postReview(gameId, input) {
-    const response = await fetch(`${API_BASE}/games/${gameId}/reviews`, {
+async function postJson(url, body) {
+    const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(input),
+        body: JSON.stringify(body),
     });
     if (response.ok) {
-        return { ok: true, review: (await response.json()) };
+        return { ok: true, data: (await response.json()) };
     }
     if (response.status >= 400 && response.status < 500) {
         const problem = (await response.json());
         return { ok: false, message: problem.detail ?? problem.title, errors: problem.errors ?? {} };
     }
     throw new Error(`Сервер ответил ошибкой ${response.status}`);
+}
+export function postReview(gameId, input) {
+    return postJson(`${API_BASE}/games/${gameId}/reviews`, input);
+}
+export function postGame(input) {
+    return postJson(`${API_BASE}/games`, input);
 }
 //# sourceMappingURL=api.js.map

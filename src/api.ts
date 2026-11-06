@@ -1,4 +1,4 @@
-import type { Game, GameDetails, Genre, NewReview, Player, Review } from "./models.js";
+import type { Game, GameDetails, Genre, NewGame, NewReview, Player, Review } from "./models.js";
 import { getGenres, selectGames, type CatalogFilters } from "./filters.js";
 import { calculateFinalPrice } from "./price.js";
 
@@ -95,23 +95,32 @@ interface ProblemDetails {
   errors?: Record<string, string[]>;
 }
 
-export type PostReviewResult =
-  | { ok: true; review: Review }
+// Результат отправки: или успех с данными, или ошибки, которые можно показать у формы
+export type PostResult<T> =
+  | { ok: true; data: T }
   | { ok: false; message: string; errors: Record<string, string[]> };
 
-export async function postReview(gameId: number, input: NewReview): Promise<PostReviewResult> {
-  const response = await fetch(`${API_BASE}/games/${gameId}/reviews`, {
+async function postJson<T>(url: string, body: unknown): Promise<PostResult<T>> {
+  const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(input),
+    body: JSON.stringify(body),
   });
 
   if (response.ok) {
-    return { ok: true, review: (await response.json()) as Review };
+    return { ok: true, data: (await response.json()) as T };
   }
   if (response.status >= 400 && response.status < 500) {
     const problem = (await response.json()) as ProblemDetails;
     return { ok: false, message: problem.detail ?? problem.title, errors: problem.errors ?? {} };
   }
   throw new Error(`Сервер ответил ошибкой ${response.status}`);
+}
+
+export function postReview(gameId: number, input: NewReview): Promise<PostResult<Review>> {
+  return postJson<Review>(`${API_BASE}/games/${gameId}/reviews`, input);
+}
+
+export function postGame(input: NewGame): Promise<PostResult<GameDetails>> {
+  return postJson<GameDetails>(`${API_BASE}/games`, input);
 }

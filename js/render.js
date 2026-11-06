@@ -1,4 +1,5 @@
 import { formatPrice } from "./price.js";
+import { useFallbackImage } from "./dom.js";
 export function createPrice(game) {
     const price = document.createElement("p");
     price.className = "price";
@@ -38,6 +39,7 @@ export function createGameCard(game, state) {
     cover.width = 180;
     cover.height = 240;
     cover.loading = "lazy";
+    useFallbackImage(cover);
     const title = document.createElement("h3");
     title.textContent = game.title;
     link.append(cover, title);

@@ -2,6 +2,7 @@ import type { Game, Genre } from "./models.js";
 import { USE_API, fetchGame, fetchGames, fetchGenres } from "./api.js";
 import { setupPlayerSwitch } from "./player.js";
 import { setupReviews } from "./reviews.js";
+import { setupAdminForm, showAdminOffline } from "./admin.js";
 import { createLoadError, createSkeletonCards } from "./loading.js";
 import type { CatalogFilters, SortOrder } from "./filters.js";
 import { createGameCard } from "./render.js";
@@ -304,6 +305,9 @@ async function start(): Promise<void> {
   try {
     if (USE_API) {
       await setupPlayerSwitch();
+      await setupAdminForm();
+    } else {
+      showAdminOffline();
     }
     games = await fetchGames(ALL_GAMES);
     await fillGenres();
