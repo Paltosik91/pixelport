@@ -30,6 +30,13 @@ export function createPrice(game: Game): HTMLParagraphElement {
   return price;
 }
 
+// Новинки — игры этого года выпуска и новее
+const NEW_RELEASE_YEAR = 2025;
+
+export function isNewRelease(game: Game): boolean {
+  return game.year >= NEW_RELEASE_YEAR;
+}
+
 export function createGameCard(game: Game, state: CardState): HTMLElement {
   const card = document.createElement("article");
   card.className = "card";
@@ -62,7 +69,8 @@ export function createGameCard(game: Game, state: CardState): HTMLElement {
 
   const meta = document.createElement("p");
   const rating = game.rating === null ? "нет отзывов" : `👍 ${game.rating}%`;
-  meta.textContent = `${game.genre} · ${game.year} · ${rating}`;
+  const newMark = isNewRelease(game) ? " · 🆕 новинка" : "";
+  meta.textContent = `${game.genre} · ${game.year}${newMark} · ${rating}`;
 
   const buyButton = document.createElement("button");
   buyButton.type = "button";

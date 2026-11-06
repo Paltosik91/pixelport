@@ -18,6 +18,11 @@ export function createPrice(game) {
     }
     return price;
 }
+// Новинки — игры этого года выпуска и новее
+const NEW_RELEASE_YEAR = 2025;
+export function isNewRelease(game) {
+    return game.year >= NEW_RELEASE_YEAR;
+}
 export function createGameCard(game, state) {
     const card = document.createElement("article");
     card.className = "card";
@@ -45,7 +50,8 @@ export function createGameCard(game, state) {
     link.append(cover, title);
     const meta = document.createElement("p");
     const rating = game.rating === null ? "нет отзывов" : `👍 ${game.rating}%`;
-    meta.textContent = `${game.genre} · ${game.year} · ${rating}`;
+    const newMark = isNewRelease(game) ? " · 🆕 новинка" : "";
+    meta.textContent = `${game.genre} · ${game.year}${newMark} · ${rating}`;
     const buyButton = document.createElement("button");
     buyButton.type = "button";
     buyButton.className = "buy-button";
